@@ -1,0 +1,37 @@
+{
+  "name": "gulp-fasttime-lint",
+  "version": "0.0.0",
+  "description": "Gulp plugin for ESLint and JSCS validation with fasttime presets",
+  "keywords": [
+    "eslint",
+    "gulpplugin",
+    "jscs",
+    "lint",
+    "validate"
+  ],
+  "homepage": "https://github.com/fasttime/gulp-fasttime-lint",
+  "bugs": {
+    "url": "https://github.com/fasttime/gulp-fasttime-lint/issues"
+  },
+  "license": "ISC",
+  "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fasttime/gulp-fasttime-lint.git"
+  },
+  "scripts": {
+    "build": "npm install && gulp"
+  },
+  "dependencies": {
+    "gulp-eslint": "~3.0.1",
+    "jscs": "~3.0.7",
+    "lazypipe": "~1.0.1",
+    "through2": "~2.0.1"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.1"
+  }
+}
