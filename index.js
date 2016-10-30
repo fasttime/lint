@@ -23,7 +23,7 @@ function combine()
 
 function failValidation()
 {
-    function end(cb)
+    function end(callback)
     {
         if (errorCount)
         {
@@ -32,61 +32,64 @@ function failValidation()
             var error = new PluginError('gulp-fasttime-lint', message);
             this.emit('error', error);
         }
-        cb();
+        callback();
     }
     
-    function write(file, enc, cb)
+    function write(chunk, enc, callback)
     {
-        var eslintData = file.eslint;
+        var eslintData = chunk.eslint;
         if (eslintData)
             errorCount += eslintData.errorCount;
-        var jscsData = file.jscs;
+        var jscsData = chunk.jscs;
         if (jscsData)
             errorCount += jscsData.errorCount;
-        cb(null, file);
+        callback(null, chunk);
     }
     
     var errorCount = 0;
-    return through.obj(write, end);
+    var stream = through.obj(write, end);
+    return stream;
 }
 
 function jscs(config)
 {
-    function write(file, enc, cb)
+    function write(chunk, enc, callback)
     {
-        if (file.isStream())
+        if (chunk.isStream())
         {
-            cb(new PluginError('gulp-fasttime-lint', 'Streaming not supported'));
+            callback(new PluginError('gulp-fasttime-lint', 'Streaming not supported'));
             return;
         }
-        if (!file.isNull() && !jscsChecker.getConfiguration().isFileExcluded(file.path))
+        if (!chunk.isNull() && !jscsChecker.getConfiguration().isFileExcluded(chunk.path))
         {
-            var contents = file.contents.toString();
-            var errors = jscsChecker.checkString(contents, file.path);
+            var contents = chunk.contents.toString();
+            var errors = jscsChecker.checkString(contents, chunk.path);
             var errorList = errors.getErrorList();
             var errorCount = errorList.length;
-            file.jscs = { errorCount: errorCount, errors: errors };
+            chunk.jscs = { errorCount: errorCount, errors: errors };
         }
-        cb(null, file);
+        callback(null, chunk);
     }
     
     var jscsChecker = new JscsChecker();
     jscsChecker.registerDefaultRules();
     jscsChecker.configure(config);
-    return through.obj(write);
+    var stream = through.obj(write);
+    return stream;
 }
 
 function jscsReportErrors()
 {
-    function write(file, enc, cb)
+    function write(chunk, enc, callback)
     {
-        var jscsData = file.jscs;
-        if (jscsData.errorCount)
+        var jscsData = chunk.jscs;
+        if (jscsData && jscsData.errorCount)
             jscsReporter([jscsData.errors]);
-        cb(null, file);
+        callback(null, chunk);
     }
     
-    return through.obj(write);
+    var stream = through.obj(write);
+    return stream;
 }
 
 function lint(opts)
