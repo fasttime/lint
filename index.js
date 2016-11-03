@@ -111,14 +111,14 @@ function init()
             rules:          combine(ESLINT_RULES, opts.eslintRules)
         };
         var jscsConfig = combine(JSCS_RULES, opts.jscsRules);
-        var lint =
+        var createStream =
             lazypipe()
             .pipe(eslint, eslintOptions)
             .pipe(eslint.format)
             .pipe(jscs, jscsConfig)
             .pipe(jscsReportErrors)
             .pipe(failValidation);
-        var stream = lint();
+        var stream = createStream();
         return stream;
     }
     
@@ -234,7 +234,7 @@ function init()
         'no-delete-var':                    'error',
         'no-label-var':                     'error',
         'no-restricted-globals':            'error',
-        'no-shadow':                        'off',
+        'no-shadow':                        'error',
         'no-shadow-restricted-names':       'error',
         'no-undef':                         'error',
         'no-undef-init':                    'error',
