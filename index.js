@@ -205,6 +205,7 @@ function init()
         'no-redeclare':                     'error',
         'no-restricted-properties':         'off',
         'no-return-assign':                 'error',
+        'no-return-await':                  'error',
         'no-script-url':                    'error',
         'no-self-assign':                   'error',
         'no-self-compare':                  'error',
