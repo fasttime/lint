@@ -274,7 +274,17 @@ function init()
         'id-length':                        'off',
         // Encourage use of abbreviations: "char", "obj", "str".
         'id-match':                         ['error', '^(?!(character|object|string)(?![_a-z]))'],
-        'indent':                           ['error', 4, { VariableDeclarator: 0 }],
+        'indent':
+        [
+            'error',
+            4,
+            {
+                CallExpression: { arguments: 'first' },
+                FunctionDeclaration: { parameters: 'first' },
+                FunctionExpression: { parameters: 'first' },
+                VariableDeclarator: 0
+            }
+        ],
         'jsx-quotes':                       'error',
         'key-spacing':                      ['error', { mode: 'minimum' }],
         'keyword-spacing':                  'error',
@@ -340,29 +350,7 @@ function init()
         'wrap-regex':                       'off',
     };
     
-    var JSCS_RULES =
-    {
-        disallowSpacesInCallExpression: true,
-        requireAlignedMultilineParams: true,
-        requireKeywordsOnNewLine:
-        [
-            'break',
-            'case',
-            'catch',
-            'continue',
-            'default',
-            'do',
-            'else',
-            'finally',
-            'for',
-            'return',
-            'switch',
-            'throw',
-            'try',
-            'while'
-        ],
-        requireSpaceBeforeKeywords: ['delete', 'if', 'in', 'instanceof'],
-    };
+    var JSCS_RULES = { disallowSpacesInCallExpression: true };
     
     var PluginError = gutil.PluginError;
     var extend = util._extend;
