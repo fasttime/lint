@@ -1,16 +1,38 @@
 'use strict';
 
-var gulp = require('gulp');
+const gulp = require('gulp');
 
 gulp.task(
-    'lint',
-    function ()
+    'lint:index',
+    () =>
     {
-        var lint = require('./'); // '.' doesn't work in older Node.js versions
+        const lint = require('.');
         
-        var stream = gulp.src('./*.js').pipe(lint({ envs: ['node'] }));
+        const stream = gulp.src('lib/index.js').pipe(lint({ envs: ['node'] }));
         return stream;
     }
 );
 
-gulp.task('default', ['lint']);
+gulp.task(
+    'lint:other',
+    () =>
+    {
+        const lint = require('.');
+        
+        const stream =
+            gulp.src(['**/*.js', '!lib/index.js']).pipe(
+                lint({ envs: ['es6', 'node'], parserOptions: { ecmaVersion: 6 } })
+            );
+        return stream;
+    }
+);
+
+gulp.task(
+    'default',
+    callback =>
+    {
+        const runSequence = require('run-sequence');
+        
+        runSequence('lint:index', 'lint:other', callback);
+    }
+);
