@@ -27,12 +27,4 @@ gulp.task(
     }
 );
 
-gulp.task(
-    'default',
-    callback =>
-    {
-        const runSequence = require('run-sequence');
-        
-        runSequence('lint:index', 'lint:other', callback);
-    }
-);
+gulp.task('default', ['lint:index', 'lint:other']);
