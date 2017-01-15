@@ -1,11 +1,10 @@
 {
   "name": "gulp-fasttime-lint",
-  "version": "0.1.1",
-  "description": "Gulp plugin for ESLint and JSCS validation with fasttime presets",
+  "version": "0.2.0",
+  "description": "Gulp plugin for ESLint validation with fasttime presets.",
   "keywords": [
     "eslint",
     "gulpplugin",
-    "jscs",
     "lint",
     "validate"
   ],
@@ -27,9 +26,9 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
+    "eslint-plugin-no-spaces-in-call-expression": "~0.0.1",
     "gulp-eslint": "~3.0.1",
     "gulp-util": "~3.0.8",
-    "jscs": "~3.0.7",
     "lazypipe": "~1.0.1",
     "semver": "~5.3.0",
     "through2": "~2.0.3"

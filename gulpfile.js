@@ -2,13 +2,16 @@
 
 const gulp = require('gulp');
 
+// Rest parameters and the spread operator are not supported in Node.js 4.
+const eslintRules = { 'prefer-rest-params': 'off', 'prefer-spread': 'off' };
+
 gulp.task(
     'lint:index',
     () =>
     {
         const lint = require('.');
         
-        const stream = gulp.src('lib/index.js').pipe(lint({ envs: ['node'] }));
+        const stream = gulp.src('lib/index.js').pipe(lint({ envs: ['node'], rules: eslintRules }));
         return stream;
     }
 );
@@ -21,7 +24,7 @@ gulp.task(
         
         const stream =
             gulp.src(['**/*.js', '!lib/index.js']).pipe(
-                lint({ envs: ['es6', 'node'], parserOptions: { ecmaVersion: 6 } })
+                lint({ envs: ['node'], parserOptions: { ecmaVersion: 6 }, rules: eslintRules })
             );
         return stream;
     }
