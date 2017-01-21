@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// Run with Node.js 7 or later.
+
 'use strict';
 
 const fs = require('fs');
@@ -15,14 +17,14 @@ const addToRuleListMap =
         ruleList.push(rule);
     };
 
-const colors = gutil.colors;
+const { colors } = gutil;
 
 const getRuleInfo =
     rule =>
     {
         const rulePath = path.join(ruleFolder, rule);
         const ruleDef = require(rulePath);
-        const meta = ruleDef.meta;
+        const { meta } = ruleDef;
         const ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
         return ruleInfo;
     };
