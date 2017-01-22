@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// Run with Node.js 7 or later.
-
 'use strict';
 
 const fs = require('fs');
@@ -17,14 +15,14 @@ const addToRuleListMap =
         ruleList.push(rule);
     };
 
-const { colors } = gutil;
+const colors = gutil.colors;
 
 const getRuleInfo =
     rule =>
     {
         const rulePath = path.join(ruleFolder, rule);
         const ruleDef = require(rulePath);
-        const { meta } = ruleDef;
+        const meta = ruleDef.meta;
         const ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
         return ruleInfo;
     };
@@ -38,7 +36,7 @@ const listRules =
         console.log('\n%s', colors.bold(description));
         console.log(horizontalRule);
         {
-            const categories = [...ruleListMap.keys()].sort();
+            const categories = Array.from(ruleListMap.keys()).sort();
             for (const category of categories)
             {
                 const ruleList = ruleListMap.get(category).sort();
@@ -72,15 +70,17 @@ const ruleFolder = 'eslint/lib/rules';
         }
         {
             const eslintRules = require('./lib/eslint-rules');
-            const usedRuleEntries = Object.entries(eslintRules);
-            for (const [actualCategory, ruleConfig] of usedRuleEntries)
+            const actualCategories = Object.keys(eslintRules);
+            for (const actualCategory of actualCategories)
             {
+                const ruleConfig = eslintRules[actualCategory];
                 const ruleList = Object.keys(ruleConfig);
                 for (const rule of ruleList)
                 {
                     unconfiguredRuleSet.delete(rule);
-                    const { deprecated, category } = getRuleInfo(rule);
-                    if (deprecated)
+                    const ruleInfo = getRuleInfo(rule);
+                    const category = ruleInfo.category;
+                    if (ruleInfo.deprecated)
                         addToRuleListMap(deprecatedRuleListMap, category, rule);
                     if (actualCategory !== category)
                         addToRuleListMap(miscategorizedRuleListMap, category, rule);
@@ -89,9 +89,9 @@ const ruleFolder = 'eslint/lib/rules';
         }
         for (const rule of unconfiguredRuleSet)
         {
-            const { deprecated, category } = getRuleInfo(rule);
-            if (!deprecated)
-                addToRuleListMap(unconfiguredRuleListMap, category, rule);
+            const ruleInfo = getRuleInfo(rule);
+            if (!ruleInfo.deprecated)
+                addToRuleListMap(unconfiguredRuleListMap, ruleInfo.category, rule);
         }
     }
     if (

@@ -2,8 +2,13 @@
 
 const gulp = require('gulp');
 
-// Rest parameters and the spread operator are not supported in Node.js 4.
-const eslintRules = { 'prefer-rest-params': 'off', 'prefer-spread': 'off' };
+// Destructuring, rest parameters and the spread operator are not supported in Node.js 4.
+const eslintRules =
+{
+    'prefer-destructuring': 'off',
+    'prefer-rest-params':   'off',
+    'prefer-spread':        'off'
+};
 
 gulp.task(
     'lint:index',
