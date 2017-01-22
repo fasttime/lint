@@ -26,7 +26,7 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
-    "eslint-plugin-no-spaces-in-call-expression": "~0.0.1",
+    "eslint-plugin-no-spaces-in-call-expression": "~0.0.2",
     "gulp-eslint": "~3.0.1",
     "gulp-util": "~3.0.8",
     "lazypipe": "~1.0.1",
