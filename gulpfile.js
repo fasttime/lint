@@ -11,7 +11,7 @@ gulp.task(
     () =>
     {
         const lint = require('.');
-        
+
         const stream = gulp.src('lib/index.js').pipe(lint({ envs: ['node'], rules: eslintRules }));
         return stream;
     }
@@ -22,7 +22,7 @@ gulp.task(
     () =>
     {
         const lint = require('.');
-        
+
         const stream =
             gulp.src(['**/*.js', '!lib/index.js']).pipe(
                 lint({ envs: ['node'], parserOptions: { ecmaVersion: 6 }, rules: eslintRules })
