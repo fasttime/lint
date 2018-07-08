@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "eslint-plugin-no-spaces-in-call-expression": "~0.0.2",
-    "gulp-eslint": "~4.0.2",
+    "gulp-eslint": "~5.0.0",
     "gulp-util": "~3.0.8",
     "lazypipe": "~1.0.1",
     "semver": "~5.5.0",
