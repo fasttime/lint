@@ -2,31 +2,29 @@
 
 const gulp = require('gulp');
 
-// Destructuring, rest parameters and the spread operator are not supported in Node.js 4.
-const eslintRules =
-{ 'prefer-destructuring': 'off', 'prefer-rest-params': 'off', 'prefer-spread': 'off' };
-
-gulp.task(
+gulp.task
+(
     'lint:index',
     () =>
     {
         const lint = require('.');
 
-        const stream = gulp.src('lib/index.js').pipe(lint({ envs: ['node'], rules: eslintRules }));
+        const stream = gulp.src('lib/index.js').pipe(lint({ envs: ['node'] }));
         return stream;
     }
 );
 
-gulp.task(
+gulp.task
+(
     'lint:other',
     () =>
     {
         const lint = require('.');
 
         const stream =
-            gulp.src(['**/*.js', '!lib/index.js']).pipe(
-                lint({ envs: ['node'], parserOptions: { ecmaVersion: 6 }, rules: eslintRules })
-            );
+        gulp
+        .src(['**/*.js', '!lib/index.js'])
+        .pipe(lint({ envs: ['node'], parserOptions: { ecmaVersion: 6 } }));
         return stream;
     }
 );

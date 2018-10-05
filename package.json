@@ -1,6 +1,6 @@
 {
   "name": "gulp-fasttime-lint",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Gulp plugin for ESLint validation with fasttime presets.",
   "keywords": [
     "eslint",
@@ -15,7 +15,7 @@
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
-    "lib"
+    "lib/*.js"
   ],
   "main": "lib",
   "repository": {
@@ -26,7 +26,7 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
-    "eslint-plugin-no-spaces-in-call-expression": "~0.0.2",
+    "eslint-plugin-fasttime-rules": "~0.1.1",
     "gulp-eslint": "~5.0.0",
     "gulp-util": "~3.0.8",
     "lazypipe": "~1.0.1",

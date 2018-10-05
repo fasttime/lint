@@ -3,50 +3,48 @@
 'use strict';
 
 const fs = require('fs');
+const { colors } = require('gulp-util');
 const path = require('path');
-const gutil = require('gulp-util');
 
 const addToRuleListMap =
-    (ruleListMap, category, rule) =>
-    {
-        let ruleList = ruleListMap.get(category);
-        if (!ruleList)
-            ruleListMap.set(category, ruleList = []);
-        ruleList.push(rule);
-    };
-
-const colors = gutil.colors;
+(ruleListMap, category, rule) =>
+{
+    let ruleList = ruleListMap.get(category);
+    if (!ruleList)
+        ruleListMap.set(category, ruleList = []);
+    ruleList.push(rule);
+};
 
 const getRuleInfo =
-    rule =>
-    {
-        const rulePath = path.join(ruleFolder, rule);
-        const ruleDef = require(rulePath);
-        const meta = ruleDef.meta;
-        const ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
-        return ruleInfo;
-    };
+rule =>
+{
+    const rulePath = path.join(ruleFolder, rule);
+    const ruleDef = require(rulePath);
+    const { meta } = ruleDef;
+    const ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
+    return ruleInfo;
+};
 
 const listRules =
-    (description, ruleListMap) =>
+(description, ruleListMap) =>
+{
+    if (ruleListMap.size === 0)
+        return;
+    const horizontalRule = colors.gray('⏤'.repeat(52));
+    console.log('\n%s', colors.bold(description));
+    console.log(horizontalRule);
     {
-        if (ruleListMap.size === 0)
-            return;
-        const horizontalRule = colors.gray('⏤'.repeat(52));
-        console.log('\n%s', colors.bold(description));
-        console.log(horizontalRule);
+        const categories = Array.from(ruleListMap.keys()).sort();
+        for (const category of categories)
         {
-            const categories = Array.from(ruleListMap.keys()).sort();
-            for (const category of categories)
-            {
-                const ruleList = ruleListMap.get(category).sort();
-                console.log('%s', colors.blue(category));
-                for (const rule of ruleList)
-                    console.log('• %s', rule);
-            }
+            const ruleList = ruleListMap.get(category).sort();
+            console.log('%s', colors.blue(category));
+            for (const rule of ruleList)
+                console.log('• %s', rule);
         }
-        console.log(horizontalRule);
-    };
+    }
+    console.log(horizontalRule);
+};
 
 const ruleFolder = 'eslint/lib/rules';
 
@@ -79,7 +77,7 @@ const ruleFolder = 'eslint/lib/rules';
                 {
                     unconfiguredRuleSet.delete(rule);
                     const ruleInfo = getRuleInfo(rule);
-                    const category = ruleInfo.category;
+                    const { category } = ruleInfo;
                     if (ruleInfo.deprecated)
                         addToRuleListMap(deprecatedRuleListMap, category, rule);
                     if (actualCategory !== category)
@@ -94,10 +92,8 @@ const ruleFolder = 'eslint/lib/rules';
                 addToRuleListMap(unconfiguredRuleListMap, ruleInfo.category, rule);
         }
     }
-    if (
-        unconfiguredRuleListMap.size ||
-        deprecatedRuleListMap.size ||
-        miscategorizedRuleListMap.size)
+    if
+    (unconfiguredRuleListMap.size || deprecatedRuleListMap.size || miscategorizedRuleListMap.size)
     {
         console.log(colors.red('Found problems in ESLint rule configuration file eslint-rules.js'));
         listRules('Rules not configured', unconfiguredRuleListMap);
@@ -106,8 +102,7 @@ const ruleFolder = 'eslint/lib/rules';
     }
     else
     {
-        console.log(
-            colors.green('No problems found in ESLint rule configuration file eslint-rules.js')
-        );
+        console.log
+        (colors.green('No problems found in ESLint rule configuration file eslint-rules.js'));
     }
 }
