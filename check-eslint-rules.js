@@ -2,8 +2,8 @@
 
 'use strict';
 
+const colors = require('ansi-colors');
 const fs = require('fs');
-const { colors } = require('gulp-util');
 const path = require('path');
 
 const addToRuleListMap =
