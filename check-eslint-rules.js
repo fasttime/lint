@@ -55,7 +55,7 @@ const ruleFolder = 'eslint/lib/rules';
     {
         const unconfiguredRuleSet = new Set();
         {
-            const fileNames = fs.readdirSync(`./node_modules/${ruleFolder}`);
+            const fileNames = fs.readdirSync(`${__dirname}/node_modules/${ruleFolder}`);
             for (const fileName of fileNames)
             {
                 const extname = path.extname(fileName);
@@ -67,7 +67,7 @@ const ruleFolder = 'eslint/lib/rules';
             }
         }
         {
-            const eslintRules = require('./lib/eslint-rules');
+            const eslintRules = require('./eslint-rules');
             const actualCategories = Object.keys(eslintRules);
             for (const actualCategory of actualCategories)
             {

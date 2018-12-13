@@ -5,7 +5,7 @@ const eslintRules   = require('./eslint-rules');
 const gulp          = require('gulp');
 const gulpEslint    = require('gulp-eslint');
 const mergeStream   = require('merge-stream');
-const pkg           = require('../package.json');
+const pkg           = require('./package.json');
 
 function combine(...objs)
 {
@@ -58,7 +58,7 @@ function merge(...args)
     return array;
 }
 
-function parseConfig({ src, envs, globals, parserOptions, rules })
+function parseConfig({ src, envs, globals, parserOptions = { }, rules })
 {
     function addRuleConfig(category)
     {
@@ -68,7 +68,7 @@ function parseConfig({ src, envs, globals, parserOptions, rules })
 
     let presetESLintEnvs;
     let categoryCallback;
-    if ((parserOptions || { }).ecmaVersion >= 6)
+    if (parserOptions.ecmaVersion >= 6)
     {
         presetESLintEnvs = ['es6'];
         categoryCallback = addRuleConfig;

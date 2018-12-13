@@ -13,7 +13,7 @@ else
     function ()
     {
         var stream = through.obj();
-        setTimeout
+        process.nextTick
         (
             function ()
             {

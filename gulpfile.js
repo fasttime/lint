@@ -9,11 +9,11 @@ exports.default =
     lint
     (
         {
-            src: 'lib/index.js',
+            src: 'index.js',
             envs: ['node'],
         },
         {
-            src: ['**/*.js', '!lib/index.js'],
+            src: ['*.js', '!index.js'],
             envs: ['node'],
             parserOptions: { ecmaVersion: 6 },
         }
