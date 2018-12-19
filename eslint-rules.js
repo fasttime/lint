@@ -92,7 +92,7 @@ module.exports =
         'no-proto':                         'error',
         'no-redeclare':                     'error',
         'no-restricted-properties':         'off',
-        'no-return-assign':                 'off',
+        'no-return-assign':                 ['error', 'always'],
         'no-return-await':                  'error',
         'no-script-url':                    'error',
         'no-self-assign':                   'error',
