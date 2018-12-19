@@ -2,10 +2,10 @@
 
 const PluginError   = require('plugin-error');
 const eslintRules   = require('./eslint-rules');
-const gulp          = require('gulp');
 const gulpEslint    = require('gulp-eslint');
 const mergeStream   = require('merge-stream');
 const pkg           = require('./package.json');
+const vfs           = require('vinyl-fs');
 
 function combine(...objs)
 {
@@ -44,7 +44,7 @@ function lint(...configList)
         config =>
         {
             const { opts, src } = parseConfig(config);
-            const stream = gulp.src(src).pipe(gulpEslint(opts));
+            const stream = vfs.src(src).pipe(gulpEslint(opts));
             return stream;
         }
     );
