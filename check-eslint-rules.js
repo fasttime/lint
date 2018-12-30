@@ -18,7 +18,7 @@ const addToRuleListMap =
 const getRuleInfo =
 rule =>
 {
-    const rulePath = path.join(ruleFolder, rule);
+    const rulePath = path.join(RULE_DIR, rule);
     const ruleDef = require(rulePath);
     const { meta } = ruleDef;
     const ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
@@ -46,7 +46,7 @@ const listRules =
     console.log(horizontalRule);
 };
 
-const ruleFolder = 'eslint/lib/rules';
+const RULE_DIR = 'eslint/lib/rules';
 
 {
     const deprecatedRuleListMap = new Map();
@@ -55,7 +55,7 @@ const ruleFolder = 'eslint/lib/rules';
     {
         const unconfiguredRuleSet = new Set();
         {
-            const fileNames = fs.readdirSync(`${__dirname}/node_modules/${ruleFolder}`);
+            const fileNames = fs.readdirSync(`${__dirname}/node_modules/${RULE_DIR}`);
             for (const fileName of fileNames)
             {
                 const extname = path.extname(fileName);
@@ -67,29 +67,27 @@ const ruleFolder = 'eslint/lib/rules';
             }
         }
         {
-            const eslintRules = require('./eslint-rules');
-            const actualCategories = Object.keys(eslintRules);
-            for (const actualCategory of actualCategories)
+            const eslintRuleDefinitions = require('./lib/eslint-rules');
+            for (const { category: actualCategory, ruleConfig } of eslintRuleDefinitions)
             {
-                const ruleConfig = eslintRules[actualCategory];
                 const ruleList = Object.keys(ruleConfig);
                 for (const rule of ruleList)
                 {
                     unconfiguredRuleSet.delete(rule);
                     const ruleInfo = getRuleInfo(rule);
-                    const { category } = ruleInfo;
-                    if (ruleInfo.deprecated)
-                        addToRuleListMap(deprecatedRuleListMap, category, rule);
-                    if (actualCategory !== category)
-                        addToRuleListMap(miscategorizedRuleListMap, category, rule);
+                    const { category: expectedCategory, deprecated } = ruleInfo;
+                    if (deprecated)
+                        addToRuleListMap(deprecatedRuleListMap, expectedCategory, rule);
+                    if (actualCategory !== expectedCategory)
+                        addToRuleListMap(miscategorizedRuleListMap, expectedCategory, rule);
                 }
             }
         }
         for (const rule of unconfiguredRuleSet)
         {
-            const ruleInfo = getRuleInfo(rule);
-            if (!ruleInfo.deprecated)
-                addToRuleListMap(unconfiguredRuleListMap, ruleInfo.category, rule);
+            const { category, deprecated } = getRuleInfo(rule);
+            if (!deprecated)
+                addToRuleListMap(unconfiguredRuleListMap, category, rule);
         }
     }
     if

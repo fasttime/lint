@@ -10,13 +10,18 @@ exports.default =
     (
         {
             src: 'index.js',
-            envs: ['node'],
+            envs: 'node',
         },
         {
             src: ['*.js', '!index.js'],
-            envs: ['node'],
+            envs: 'node',
+            parserOptions: { ecmaVersion: 8 },
+        },
+        {
+            src: 'lib/**/*.js',
+            envs: 'node',
             parserOptions: { ecmaVersion: 6 },
-        }
+        },
     );
     return stream;
 };

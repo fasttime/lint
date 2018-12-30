@@ -20,9 +20,8 @@
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
-    "eslint-rules.js",
-    "gulp-fasttime-lint.js",
-    "index.js"
+    "index.js",
+    "lib/*.js"
   ],
   "repository": {
     "type": "git",

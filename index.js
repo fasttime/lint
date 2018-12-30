@@ -3,7 +3,7 @@
 var semver = require('semver');
 
 if (semver.satisfies(process.version, '>=6.0.0'))
-    module.exports = require('./gulp-fasttime-lint');
+    module.exports = require('./lib/gulp-fasttime-lint');
 else
 {
     var colors = require('ansi-colors');
