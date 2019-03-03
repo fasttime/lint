@@ -1,6 +1,6 @@
 {
   "name": "gulp-fasttime-lint",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Gulp plugin for ESLint validation with fasttime presets.",
   "keywords": [
     "eslint",
@@ -14,9 +14,7 @@
     "validator"
   ],
   "homepage": "https://github.com/fasttime/gulp-fasttime-lint",
-  "bugs": {
-    "url": "https://github.com/fasttime/gulp-fasttime-lint/issues"
-  },
+  "bugs": "https://github.com/fasttime/gulp-fasttime-lint/issues",
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
@@ -38,7 +36,7 @@
     "merge-stream": "~1.0.1",
     "plugin-error": "~1.0.1",
     "semver": "~5.6.0",
-    "through2": "~3.0.0",
+    "through2": "~3.0.1",
     "vinyl-fs": "~3.0.3"
   },
   "devDependencies": {
