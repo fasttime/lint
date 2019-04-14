@@ -15,7 +15,7 @@ exports.default =
         {
             src: ['*.js', '!index.js'],
             envs: 'node',
-            parserOptions: { ecmaVersion: 8 },
+            parserOptions: { ecmaVersion: 9 },
         },
         {
             src: 'lib/**/*.js',

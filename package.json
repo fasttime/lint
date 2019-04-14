@@ -29,6 +29,7 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "~1.6.0",
     "@typescript-eslint/parser": "~1.6.0",
     "ansi-colors": "~1.1.0",
     "eslint-plugin-fasttime-rules": "~0.1.4",
