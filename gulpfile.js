@@ -20,7 +20,7 @@ exports.default =
         {
             src: 'lib/**/*.js',
             envs: 'node',
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 9 },
         },
     );
     return stream;

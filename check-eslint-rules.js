@@ -15,6 +15,28 @@ const addToRuleListMap =
     ruleList.push(rule);
 };
 
+function * getJSFileBasenames(dirPath)
+{
+    const fileNames = fs.readdirSync(dirPath);
+    for (const fileName of fileNames)
+    {
+        const extname = path.extname(fileName);
+        if (extname === '.js')
+        {
+            const basename = path.basename(fileName, extname);
+            yield basename;
+        }
+    }
+}
+
+const getPackageFolder =
+(pkg, subDir) =>
+{
+    const pkgMainDir = path.dirname(require.resolve(`${pkg}/package.json`));
+    const pkgSubDir = path.join(pkgMainDir, subDir);
+    return pkgSubDir;
+};
+
 const getRuleInfo =
 rule =>
 {
@@ -26,14 +48,14 @@ rule =>
         const { plugin } = groups;
         if (plugin === '@typescript-eslint')
         {
-            const rulePath = path.join(TS_RULE_DIR, groups.rule);
+            const rulePath = path.join(tsRuleDir, groups.rule);
             require(rulePath);
         }
         ruleInfo = { category: `plugin:${plugin}` };
     }
     else
     {
-        const rulePath = path.join(RULE_DIR, rule);
+        const rulePath = path.join(ruleDir, rule);
         const ruleDef = require(rulePath);
         const { meta } = ruleDef;
         ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
@@ -62,8 +84,8 @@ const listRules =
     console.log(horizontalRule);
 };
 
-const RULE_DIR = 'eslint/lib/rules';
-const TS_RULE_DIR = '@typescript-eslint/eslint-plugin/dist/rules';
+const ruleDir = getPackageFolder('eslint', 'lib/rules');
+const tsRuleDir = getPackageFolder('@typescript-eslint/eslint-plugin', 'dist/rules');
 
 {
     const deprecatedRuleListMap = new Map();
@@ -72,28 +94,14 @@ const TS_RULE_DIR = '@typescript-eslint/eslint-plugin/dist/rules';
     {
         const unconfiguredRuleSet = new Set();
         {
-            const fileNames = fs.readdirSync(`${__dirname}/node_modules/${RULE_DIR}`);
-            for (const fileName of fileNames)
-            {
-                const extname = path.extname(fileName);
-                if (extname === '.js')
-                {
-                    const basename = path.basename(fileName, extname);
-                    unconfiguredRuleSet.add(basename);
-                }
-            }
+            const basenames = getJSFileBasenames(ruleDir);
+            for (const basename of basenames)
+                unconfiguredRuleSet.add(basename);
         }
         {
-            const fileNames = fs.readdirSync(`${__dirname}/node_modules/${TS_RULE_DIR}`);
-            for (const fileName of fileNames)
-            {
-                const extname = path.extname(fileName);
-                if (extname === '.js')
-                {
-                    const basename = path.basename(fileName, extname);
-                    unconfiguredRuleSet.add(`@typescript-eslint/${basename}`);
-                }
-            }
+            const basenames = getJSFileBasenames(tsRuleDir);
+            for (const basename of basenames)
+                unconfiguredRuleSet.add(`@typescript-eslint/${basename}`);
         }
         {
             const eslintRuleDefinitions = require('./lib/eslint-rules');

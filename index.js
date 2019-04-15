@@ -2,7 +2,7 @@
 
 var semver = require('semver');
 
-if (semver.satisfies(process.version, '>=6.0.0'))
+if (semver.satisfies(process.version, '>=8.0.0'))
     module.exports = require('./lib/gulp-fasttime-lint');
 else
 {
@@ -22,5 +22,5 @@ else
         );
         return stream;
     };
-    console.error(colors.red('Validation not available in Node.js < 6'));
+    console.error(colors.red('Validation not available in Node.js < 8'));
 }
