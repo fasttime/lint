@@ -104,8 +104,8 @@ const tsRuleDir = getPackageFolder('@typescript-eslint/eslint-plugin', 'dist/rul
                 unconfiguredRuleSet.add(`@typescript-eslint/${basename}`);
         }
         {
-            const eslintRuleDefinitions = require('./lib/eslint-rules');
-            for (const { category: actualCategory, ruleConfig } of eslintRuleDefinitions)
+            const { ruleDefinitions } = require('./lib/eslint-rules');
+            for (const { category: actualCategory, ruleConfig } of ruleDefinitions)
             {
                 const ruleList = Object.keys(ruleConfig);
                 for (const rule of ruleList)
