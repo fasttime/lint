@@ -29,8 +29,8 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "~1.6.0",
-    "@typescript-eslint/parser": "~1.6.0",
+    "@typescript-eslint/eslint-plugin": "~1.7.0",
+    "@typescript-eslint/parser": "~1.7.0",
     "ansi-colors": "~1.1.0",
     "eslint-plugin-fasttime-rules": "~0.1.4",
     "gulp-eslint": "~5.0.0",
@@ -40,10 +40,10 @@
     "plugin-error": "~1.0.1",
     "semver": "~6.0.0",
     "through2": "~3.0.1",
-    "typescript": "~3.4.3",
+    "typescript": "~3.4.4",
     "vinyl-fs": "~3.0.3"
   },
   "devDependencies": {
-    "gulp": "~4.0.0"
+    "gulp": "~4.0.1"
   }
 }
