@@ -21,6 +21,9 @@
     "index.js",
     "lib/*.js"
   ],
+  "directories": {
+    "lib": "lib"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fasttime/gulp-fasttime-lint.git"
@@ -31,7 +34,6 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "~1.7.0",
     "@typescript-eslint/parser": "~1.7.0",
-    "ansi-colors": "~1.1.0",
     "eslint-plugin-fasttime-rules": "~0.1.4",
     "gulp-eslint": "~5.0.0",
     "gulp-if": "~2.0.2",
@@ -40,10 +42,16 @@
     "plugin-error": "~1.0.1",
     "semver": "~6.0.0",
     "through2": "~3.0.1",
-    "typescript": "~3.4.4",
+    "typescript": "~3.4.5",
     "vinyl-fs": "~3.0.3"
   },
   "devDependencies": {
-    "gulp": "~4.0.1"
+    "del": "~4.1.1",
+    "gulp": "~4.0.1",
+    "mocha": "~6.1.4",
+    "nyc": "~14.1.0",
+    "proxyquire": "~2.1.0",
+    "vinyl-buffer": "~1.0.1",
+    "vinyl-source-stream": "~2.0.0"
   }
 }
