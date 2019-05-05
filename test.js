@@ -46,7 +46,7 @@ describe
             }
         }
 
-        const createFilename = () => `\0${++fileNumber}`;
+        const createFilename = (extension = '.js') => `\0${++fileNumber}${extension}`;
 
         function endOfStrean(stream)
         {
@@ -119,7 +119,7 @@ describe
 
         it
         (
-            'should find two errors',
+            'should find two errors in one file',
             async () =>
             {
                 const filename = createFilename();
@@ -128,6 +128,20 @@ describe
                 await assertPluginError(stream, 'Failed with 2 errors');
             },
         );
+
+        it
+        (
+            'should find two errors in two files',
+            async () =>
+            {
+                const filenameJs = createFilename('.js');
+                const filenameTs = createFilename('.ts');
+                const src = { [filenameJs]: '\'use strict\';', [filenameTs]: 'Object();' };
+                const stream = testLint({ src, parserOptions: { project: 'package.json' } });
+                await assertPluginError(stream, 'Failed with 2 errors');
+            },
+        )
+        .timeout(10000);
 
         it
         (

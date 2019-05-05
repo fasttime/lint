@@ -36,11 +36,12 @@
     "@typescript-eslint/parser": "~1.7.0",
     "eslint-plugin-fasttime-rules": "~0.1.4",
     "gulp-eslint": "~5.0.0",
-    "gulp-if": "~2.0.2",
     "gulp-tap": "~1.0.1",
     "merge-stream": "~1.0.1",
+    "multipipe": "~3.0.1",
     "plugin-error": "~1.0.1",
     "semver": "~6.0.0",
+    "ternary-stream": "~2.0.1",
     "through2": "~3.0.1",
     "typescript": "~3.4.5",
     "vinyl-fs": "~3.0.3"
