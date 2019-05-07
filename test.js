@@ -61,6 +61,8 @@ describe
             return promise;
         }
 
+        const mockLint = writable => lint.with({ vinylDest, vinylSrc, writable });
+
         function noop()
         { }
 
@@ -86,7 +88,7 @@ describe
             return stream;
         }
 
-        const testLint = lint.with({ vinylDest, vinylSrc, writable: noop });
+        const testLint = mockLint(noop);
 
         it
         (
@@ -189,6 +191,18 @@ describe
 
         it
         (
+            'should find no errors in a Gherkin file',
+            async () =>
+            {
+                const filename = createFilename('.feature');
+                const src = { [filename]: 'Feature:' };
+                const stream = testLint({ src });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
             'should find errors in a Gherkin file',
             async () =>
             {
@@ -202,6 +216,26 @@ describe
                 };
                 const stream = testLint({ src });
                 await assertPluginError(stream, 'Failed with 3 errors');
+            },
+        );
+
+        it
+        (
+            'should raise a warning for an unsupported file type',
+            async () =>
+            {
+                function writable(message)
+                {
+                    [,,,, actualLine] = message.replace(/\u001b\[\d+m/g, '').split('\n');
+                }
+
+                const filename = createFilename('.txt');
+                const src = { [filename]: '' };
+                let actualLine;
+                const stream = mockLint(writable)({ src });
+                await endOfStream(stream);
+                const expectedLine = '✖ 1 problem (0 errors, 1 warning)';
+                assert.strictEqual(actualLine, expectedLine);
             },
         );
     },
