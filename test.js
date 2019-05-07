@@ -20,7 +20,7 @@ describe
             let options;
             try
             {
-                await endOfStrean(stream);
+                await endOfStream(stream);
                 options = { message: 'PluginError expected but not thrown' };
             }
             catch (error)
@@ -48,7 +48,7 @@ describe
 
         const createFilename = (extension = '.js') => `\0${++fileNumber}${extension}`;
 
-        function endOfStrean(stream)
+        function endOfStream(stream)
         {
             const executor =
             (resolve, reject) =>
@@ -98,7 +98,7 @@ describe
                 const stream = testLint({ src });
                 const actualFiles = [];
                 stream.on('data', file => actualFiles.push(file));
-                await endOfStrean(stream);
+                await endOfStream(stream);
                 assert.equal(actualFiles.length, 1);
                 const [file] = actualFiles;
                 assert.strictEqual(file.basename, filename);
@@ -171,7 +171,7 @@ describe
                 const filename = createFilename();
                 const src = { [filename]: '\'use strict\';\n\nSymbol();\n' };
                 const stream = testLint({ src, parserOptions: { ecmaVersion: 6 } });
-                await endOfStrean(stream);
+                await endOfStream(stream);
             },
         );
 
@@ -183,7 +183,7 @@ describe
                 const filename = createFilename();
                 const src = { [filename]: '\'use strict\';' };
                 const stream = testLint({ src, fix: true });
-                await endOfStrean(stream);
+                await endOfStream(stream);
             },
         );
 
