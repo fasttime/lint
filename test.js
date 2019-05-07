@@ -131,17 +131,37 @@ describe
 
         it
         (
-            'should find two errors in two files',
+            'should find multiple errors in files with the same configuration',
             async () =>
             {
                 const filenameJs = createFilename('.js');
                 const filenameTs = createFilename('.ts');
-                const src = { [filenameJs]: '\'use strict\';', [filenameTs]: 'Object();' };
+                const filenameFeature = createFilename('.feature');
+                const src =
+                {
+                    [filenameJs]: '\'use strict\';',
+                    [filenameTs]: 'Object();',
+                    [filenameFeature]: '!\n',
+                };
                 const stream = testLint({ src, parserOptions: { project: 'package.json' } });
-                await assertPluginError(stream, 'Failed with 2 errors');
+                await assertPluginError(stream, 'Failed with 3 errors');
             },
         )
         .timeout(10000);
+
+        it
+        (
+            'should find multiple errors in files with different configurations',
+            async () =>
+            {
+                const filename1 = createFilename('.js');
+                const filename2 = createFilename('.js');
+                const src1 = { [filename1]: '\'use strict\';' };
+                const src2 = { [filename2]: 'Object();\n' };
+                const stream = testLint({ src: src1 }, { src: src2 });
+                await assertPluginError(stream, 'Failed with 2 errors');
+            },
+        );
 
         it
         (
@@ -164,6 +184,24 @@ describe
                 const src = { [filename]: '\'use strict\';' };
                 const stream = testLint({ src, fix: true });
                 await endOfStrean(stream);
+            },
+        );
+
+        it
+        (
+            'should find errors in a Gherkin file',
+            async () =>
+            {
+                const filename = createFilename('.feature');
+                const src =
+                {
+                    [filename]:
+                    '@Feature: Core: Scenarios, Steps, Mappings\n\nScenario: All steps passing ' +
+                    'means the scenario passes\nGiven the step "I add 4 and 5" has a passing ' +
+                    'mapping\n',
+                };
+                const stream = testLint({ src });
+                await assertPluginError(stream, 'Failed with 3 errors');
             },
         );
     },
