@@ -92,7 +92,7 @@ describe
 
         it
         (
-            'should find no errors',
+            'finds no errors',
             async () =>
             {
                 const filename = createFilename();
@@ -109,7 +109,7 @@ describe
 
         it
         (
-            'should find one error',
+            'finds one error',
             async () =>
             {
                 const filename = createFilename();
@@ -121,7 +121,7 @@ describe
 
         it
         (
-            'should find two errors in one file',
+            'finds two errors in one file',
             async () =>
             {
                 const filename = createFilename();
@@ -133,27 +133,29 @@ describe
 
         it
         (
-            'should find multiple errors in files with the same configuration',
+            'finds multiple errors in files with the same configuration',
             async () =>
             {
-                const filenameJs = createFilename('.js');
-                const filenameTs = createFilename('.ts');
-                const filenameFeature = createFilename('.feature');
+                const filename_js       = createFilename('.js');
+                const filename_mjs      = createFilename('.mjs');
+                const filename_ts       = createFilename('.ts');
+                const filename_feature  = createFilename('.feature');
                 const src =
                 {
-                    [filenameJs]: '\'use strict\';',
-                    [filenameTs]: 'Object();',
-                    [filenameFeature]: '!\n',
+                    [filename_js]:      '\'use strict\';',
+                    [filename_mjs]:     '"use strict";\n',
+                    [filename_ts]:      'Object();',
+                    [filename_feature]: '!\n',
                 };
                 const stream = testLint({ src, parserOptions: { project: 'package.json' } });
-                await assertPluginError(stream, 'Failed with 3 errors');
+                await assertPluginError(stream, 'Failed with 4 errors');
             },
         )
         .timeout(10000);
 
         it
         (
-            'should find multiple errors in files with different configurations',
+            'finds multiple errors in files with different configurations',
             async () =>
             {
                 const filename1 = createFilename('.js');
@@ -167,7 +169,7 @@ describe
 
         it
         (
-            'should apply ES6 rules',
+            'applies ES6 rules',
             async () =>
             {
                 const filename = createFilename();
@@ -179,7 +181,19 @@ describe
 
         it
         (
-            'should fix a file',
+            'handles ecmaVersion ≥ 2015',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: '\'use strict\';\nObject(/(.)/);\n' };
+                const stream = testLint({ src, parserOptions: { ecmaVersion: 2017 } });
+                await assertPluginError(stream, 'Failed with 1 error');
+            },
+        );
+
+        it
+        (
+            'fixes a file',
             async () =>
             {
                 const filename = createFilename();
@@ -191,7 +205,7 @@ describe
 
         it
         (
-            'should find no errors in a Gherkin file',
+            'finds no errors in a Gherkin file',
             async () =>
             {
                 const filename = createFilename('.feature');
@@ -203,7 +217,7 @@ describe
 
         it
         (
-            'should find errors in a Gherkin file',
+            'finds errors in a Gherkin file',
             async () =>
             {
                 const filename = createFilename('.feature');
@@ -221,7 +235,7 @@ describe
 
         it
         (
-            'should raise a warning for an unsupported file type',
+            'raises a warning for an unsupported file type',
             async () =>
             {
                 function writable(message)
@@ -269,7 +283,7 @@ describe
 
         it
         (
-            'should do nothing',
+            'does nothing',
             () =>
             {
                 const lint = proxyquire('.', { semver: { satisfies: () => false } });
