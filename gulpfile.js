@@ -28,7 +28,7 @@ task
                 envs: 'node',
             },
             {
-                src: ['*.js', '!index.js'],
+                src: ['*.js', 'test/**/*.js', '!index.js'],
                 envs: 'node',
                 parserOptions: { ecmaVersion: 9 },
             },
@@ -56,7 +56,7 @@ task
         fork
         (
             nycPath,
-            ['--reporter=html', '--reporter=text-summary', '--', mochaPath, 'test.js'],
+            ['--reporter=html', '--reporter=text-summary', '--', mochaPath, 'test/test.js'],
         );
         cmd.on('exit', code => callback(code && 'Test failed'));
     },

@@ -7,7 +7,7 @@ describe
     'In a supported environemnt',
     () =>
     {
-        const lint              = require('.');
+        const lint              = require('..');
         const assert            = require('assert');
         const gulpTap           = require('gulp-tap');
         const mergeStream       = require('merge-stream');
@@ -147,7 +147,7 @@ describe
                     [filename_ts]:      'Object();',
                     [filename_feature]: '!\n',
                 };
-                const stream = testLint({ src, parserOptions: { project: 'package.json' } });
+                const stream = testLint({ src, parserOptions: { project: 'tsconfig-test.json' } });
                 await assertPluginError(stream, 'Failed with 4 errors');
             },
         )
@@ -286,7 +286,7 @@ describe
             'does nothing',
             () =>
             {
-                const lint = proxyquire('.', { semver: { satisfies: () => false } });
+                const lint = proxyquire('..', { semver: { satisfies: () => false } });
                 lint();
                 lint.with()();
             },
