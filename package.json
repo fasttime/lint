@@ -22,7 +22,8 @@
     "lib/*.js"
   ],
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "test": "test"
   },
   "repository": {
     "type": "git",
