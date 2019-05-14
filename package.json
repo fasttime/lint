@@ -32,8 +32,8 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "~1.7.0",
-    "@typescript-eslint/parser": "~1.7.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
+    "@typescript-eslint/parser": "~1.9.0",
     "eslint-plugin-fasttime-rules": "~0.1.4",
     "gherkin": "~5.1.0",
     "gulp-eslint": "~5.0.0",
@@ -51,7 +51,7 @@
     "del": "~4.1.1",
     "gulp": "~4.0.2",
     "mocha": "~6.1.4",
-    "nyc": "~14.1.0",
+    "nyc": "~14.1.1",
     "proxyquire": "~2.1.0",
     "vinyl-buffer": "~1.0.1",
     "vinyl-source-stream": "~2.0.0"
