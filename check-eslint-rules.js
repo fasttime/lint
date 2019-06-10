@@ -2,9 +2,9 @@
 
 'use strict';
 
-const colors = require('ansi-colors');
-const fs = require('fs');
-const path = require('path');
+const colors    = require('ansi-colors');
+const fs        = require('fs');
+const path      = require('path');
 
 const addToRuleListMap =
 (ruleListMap, category, rule) =>
@@ -43,16 +43,7 @@ rule =>
     let ruleInfo;
     const match = /^(?<plugin>.*)\/(?<rule>.*)/.exec(rule);
     if (match)
-    {
-        const { groups } = match;
-        const { plugin } = groups;
-        if (plugin === '@typescript-eslint')
-        {
-            const rulePath = path.join(tsRuleDir, groups.rule);
-            require(rulePath);
-        }
-        ruleInfo = { category: `plugin:${plugin}` };
-    }
+        ruleInfo = { category: `plugin:${match.groups.plugin}` };
     else
     {
         const rulePath = path.join(ruleDir, rule);
@@ -85,8 +76,6 @@ const listRules =
 };
 
 const ruleDir = getPackageFolder('eslint', 'lib/rules');
-const tsRuleDir = getPackageFolder('@typescript-eslint/eslint-plugin', 'dist/rules');
-
 {
     const deprecatedRuleListMap = new Map();
     const unconfiguredRuleListMap = new Map();
@@ -99,8 +88,10 @@ const tsRuleDir = getPackageFolder('@typescript-eslint/eslint-plugin', 'dist/rul
                 unconfiguredRuleSet.add(basename);
         }
         {
-            const basenames = getJSFileBasenames(tsRuleDir);
-            for (const basename of basenames)
+            const { default: tsRules } =
+            require('@typescript-eslint/eslint-plugin/dist/rules');
+
+            for (const basename of Object.keys(tsRules))
                 unconfiguredRuleSet.add(`@typescript-eslint/${basename}`);
         }
         {
