@@ -1,6 +1,6 @@
 {
   "name": "gulp-fasttime-lint",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "Gulp plugin for ESLint validation with fasttime presets.",
   "keywords": [
     "eslint",
@@ -33,19 +33,19 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "~1.10.2",
-    "@typescript-eslint/parser": "~1.10.2",
-    "eslint-plugin-fasttime-rules": "~0.1.4",
+    "@typescript-eslint/eslint-plugin": "~1.11.0",
+    "@typescript-eslint/parser": "~1.11.0",
+    "eslint-plugin-fasttime-rules": "~0.2.0",
     "gherkin": "~5.1.0",
-    "gulp-eslint": "~5.0.0",
+    "gulp-eslint": "~6.0.0",
     "gulp-tap": "~1.0.1",
     "merge-stream": "~2.0.0",
     "multipipe": "~3.0.1",
     "plugin-error": "~1.0.1",
-    "semver": "~6.1.1",
+    "semver": "~6.1.2",
     "ternary-stream": "~2.0.1",
     "through2": "~3.0.1",
-    "typescript": "~3.5.1",
+    "typescript": "~3.5.2",
     "vinyl-fs": "~3.0.3"
   },
   "devDependencies": {

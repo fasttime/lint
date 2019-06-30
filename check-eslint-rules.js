@@ -3,7 +3,6 @@
 'use strict';
 
 const colors    = require('ansi-colors');
-const fs        = require('fs');
 const path      = require('path');
 
 const addToRuleListMap =
@@ -15,20 +14,6 @@ const addToRuleListMap =
     ruleList.push(rule);
 };
 
-function * getJSFileBasenames(dirPath)
-{
-    const fileNames = fs.readdirSync(dirPath);
-    for (const fileName of fileNames)
-    {
-        const extname = path.extname(fileName);
-        if (extname === '.js')
-        {
-            const basename = path.basename(fileName, extname);
-            yield basename;
-        }
-    }
-}
-
 const getPackageFolder =
 (pkg, subDir) =>
 {
@@ -38,19 +23,15 @@ const getPackageFolder =
 };
 
 const getRuleInfo =
-rule =>
+(ruleName, ruleMap) =>
 {
+    const meta = ruleMap.get(ruleName);
     let ruleInfo;
-    const match = /^(?<plugin>.*)\/(?<rule>.*)/.exec(rule);
+    const match = /^(?<plugin>.*)\/(?<rule>.*)/.exec(ruleName);
     if (match)
-        ruleInfo = { category: `plugin:${match.groups.plugin}` };
+        ruleInfo = { deprecated: meta.deprecated, category: `plugin:${match.groups.plugin}` };
     else
-    {
-        const rulePath = path.join(ruleDir, rule);
-        const ruleDef = require(rulePath);
-        const { meta } = ruleDef;
         ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
-    }
     return ruleInfo;
 };
 
@@ -79,20 +60,38 @@ const ruleDir = getPackageFolder('eslint', 'lib/rules');
 {
     const deprecatedRuleListMap = new Map();
     const unconfiguredRuleListMap = new Map();
+    const ruleMap = new Map();
     const miscategorizedRuleListMap = new Map();
     {
         const unconfiguredRuleSet = new Set();
         {
-            const basenames = getJSFileBasenames(ruleDir);
-            for (const basename of basenames)
-                unconfiguredRuleSet.add(basename);
+            const ruleInputMap = require(ruleDir);
+
+            for (const [ruleName, { meta }] of ruleInputMap)
+            {
+                ruleMap.set(ruleName, meta);
+                unconfiguredRuleSet.add(ruleName);
+            }
         }
         {
-            const { default: tsRules } =
-            require('@typescript-eslint/eslint-plugin/dist/rules');
+            const { default: rules } = require('@typescript-eslint/eslint-plugin/dist/rules');
 
-            for (const basename of Object.keys(tsRules))
-                unconfiguredRuleSet.add(`@typescript-eslint/${basename}`);
+            for (const [basename, { meta }] of Object.entries(rules))
+            {
+                const ruleName = `@typescript-eslint/${basename}`;
+                ruleMap.set(ruleName, meta);
+                unconfiguredRuleSet.add(ruleName);
+            }
+        }
+        {
+            const { rules } = require('eslint-plugin-fasttime-rules/lib');
+
+            for (const [basename, { meta }] of Object.entries(rules))
+            {
+                const ruleName = `fasttime-rules/${basename}`;
+                ruleMap.set(ruleName, meta);
+                unconfiguredRuleSet.add(ruleName);
+            }
         }
         {
             const { ruleDefinitions } = require('./lib/eslint-rules');
@@ -102,7 +101,7 @@ const ruleDir = getPackageFolder('eslint', 'lib/rules');
                 for (const rule of ruleList)
                 {
                     unconfiguredRuleSet.delete(rule);
-                    const ruleInfo = getRuleInfo(rule);
+                    const ruleInfo = getRuleInfo(rule, ruleMap);
                     const { category: expectedCategory, deprecated } = ruleInfo;
                     if (deprecated)
                         addToRuleListMap(deprecatedRuleListMap, expectedCategory, rule);
@@ -113,7 +112,7 @@ const ruleDir = getPackageFolder('eslint', 'lib/rules');
         }
         for (const rule of unconfiguredRuleSet)
         {
-            const { category, deprecated } = getRuleInfo(rule);
+            const { category, deprecated } = getRuleInfo(rule, ruleMap);
             if (!deprecated)
                 addToRuleListMap(unconfiguredRuleListMap, category, rule);
         }
