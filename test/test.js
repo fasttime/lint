@@ -169,12 +169,24 @@ describe
 
         it
         (
-            'applies ES6 rules',
+            'infers es6 environment from ecmaVersion explicitly ≥ 2015',
             async () =>
             {
                 const filename = createFilename();
                 const src = { [filename]: '\'use strict\';\n\nSymbol();\n' };
                 const stream = testLint({ src, parserOptions: { ecmaVersion: 6 } });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
+            'infers ecmaVersion ≥ 2015 from sourceType "module"',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: 'void (() => null);\n' };
+                const stream = testLint({ src, parserOptions: { sourceType: 'module' } });
                 await endOfStream(stream);
             },
         );

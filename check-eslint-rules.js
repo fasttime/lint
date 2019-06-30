@@ -6,12 +6,12 @@ const colors    = require('ansi-colors');
 const path      = require('path');
 
 const addToRuleListMap =
-(ruleListMap, category, rule) =>
+(ruleListMap, category, ruleName) =>
 {
     let ruleList = ruleListMap.get(category);
     if (!ruleList)
         ruleListMap.set(category, ruleList = []);
-    ruleList.push(rule);
+    ruleList.push(ruleName);
 };
 
 const getPackageFolder =
@@ -20,19 +20,6 @@ const getPackageFolder =
     const pkgMainDir = path.dirname(require.resolve(`${pkg}/package.json`));
     const pkgSubDir = path.join(pkgMainDir, subDir);
     return pkgSubDir;
-};
-
-const getRuleInfo =
-(ruleName, ruleMap) =>
-{
-    const meta = ruleMap.get(ruleName);
-    let ruleInfo;
-    const match = /^(?<plugin>.*)\/(?<rule>.*)/.exec(ruleName);
-    if (match)
-        ruleInfo = { deprecated: meta.deprecated, category: `plugin:${match.groups.plugin}` };
-    else
-        ruleInfo = { deprecated: meta.deprecated, category: meta.docs.category };
-    return ruleInfo;
 };
 
 const listRules =
@@ -49,8 +36,8 @@ const listRules =
         {
             const ruleList = ruleListMap.get(category).sort();
             console.log('%s', colors.blue(category));
-            for (const rule of ruleList)
-                console.log('• %s', rule);
+            for (const ruleName of ruleList)
+                console.log('• %s', ruleName);
         }
     }
     console.log(horizontalRule);
@@ -58,63 +45,62 @@ const listRules =
 
 const ruleDir = getPackageFolder('eslint', 'lib/rules');
 {
+    const ruleMap = new Map();
     const deprecatedRuleListMap = new Map();
     const unconfiguredRuleListMap = new Map();
-    const ruleMap = new Map();
     const miscategorizedRuleListMap = new Map();
     {
+        function registerPluginRules(plugin, category, rulePrefix)
+        {
+            const { rules } = require(plugin);
+
+            for (const [basename, { meta: { deprecated } }] of Object.entries(rules))
+            {
+                const ruleName = `${rulePrefix}/${basename}`;
+                registerRule(ruleName, category, deprecated);
+            }
+        }
+
+        function registerRule(ruleName, category, deprecated)
+        {
+            const ruleInfo = { category, deprecated };
+            ruleMap.set(ruleName, ruleInfo);
+            unconfiguredRuleSet.add(ruleName);
+        }
+
         const unconfiguredRuleSet = new Set();
         {
             const ruleInputMap = require(ruleDir);
 
-            for (const [ruleName, { meta }] of ruleInputMap)
-            {
-                ruleMap.set(ruleName, meta);
-                unconfiguredRuleSet.add(ruleName);
-            }
+            for (const [ruleName, { meta: { deprecated, docs: { category } } }] of ruleInputMap)
+                registerRule(ruleName, category, deprecated);
         }
-        {
-            const { default: rules } = require('@typescript-eslint/eslint-plugin/dist/rules');
-
-            for (const [basename, { meta }] of Object.entries(rules))
-            {
-                const ruleName = `@typescript-eslint/${basename}`;
-                ruleMap.set(ruleName, meta);
-                unconfiguredRuleSet.add(ruleName);
-            }
-        }
-        {
-            const { rules } = require('eslint-plugin-fasttime-rules/lib');
-
-            for (const [basename, { meta }] of Object.entries(rules))
-            {
-                const ruleName = `fasttime-rules/${basename}`;
-                ruleMap.set(ruleName, meta);
-                unconfiguredRuleSet.add(ruleName);
-            }
-        }
+        registerPluginRules
+        ('@typescript-eslint/eslint-plugin', 'plugin:@typescript-eslint', '@typescript-eslint');
+        registerPluginRules
+        ('eslint-plugin-fasttime-rules', 'plugin:fasttime-rules', 'fasttime-rules');
         {
             const { ruleDefinitions } = require('./lib/eslint-rules');
             for (const { category: actualCategory, ruleConfig } of ruleDefinitions)
             {
                 const ruleList = Object.keys(ruleConfig);
-                for (const rule of ruleList)
+                for (const ruleName of ruleList)
                 {
-                    unconfiguredRuleSet.delete(rule);
-                    const ruleInfo = getRuleInfo(rule, ruleMap);
+                    unconfiguredRuleSet.delete(ruleName);
+                    const ruleInfo = ruleMap.get(ruleName);
                     const { category: expectedCategory, deprecated } = ruleInfo;
                     if (deprecated)
-                        addToRuleListMap(deprecatedRuleListMap, expectedCategory, rule);
+                        addToRuleListMap(deprecatedRuleListMap, expectedCategory, ruleName);
                     if (actualCategory !== expectedCategory)
-                        addToRuleListMap(miscategorizedRuleListMap, expectedCategory, rule);
+                        addToRuleListMap(miscategorizedRuleListMap, expectedCategory, ruleName);
                 }
             }
         }
-        for (const rule of unconfiguredRuleSet)
+        for (const ruleName of unconfiguredRuleSet)
         {
-            const { category, deprecated } = getRuleInfo(rule, ruleMap);
+            const { category, deprecated } = ruleMap.get(ruleName);
             if (!deprecated)
-                addToRuleListMap(unconfiguredRuleListMap, category, rule);
+                addToRuleListMap(unconfiguredRuleListMap, category, ruleName);
         }
     }
     if
