@@ -136,19 +136,21 @@ describe
             'finds multiple errors in files with the same configuration',
             async () =>
             {
+                const filename_cjs      = createFilename('.cjs');
                 const filename_js       = createFilename('.js');
                 const filename_mjs      = createFilename('.mjs');
                 const filename_ts       = createFilename('.ts');
                 const filename_feature  = createFilename('.feature');
                 const src =
                 {
+                    [filename_cjs]:     '\'use strict\'; \n',
                     [filename_js]:      '\'use strict\';',
                     [filename_mjs]:     '"use strict";\n',
                     [filename_ts]:      'Object();',
                     [filename_feature]: '!\n',
                 };
                 const stream = testLint({ src, parserOptions: { project: 'tsconfig-test.json' } });
-                await assertPluginError(stream, 'Failed with 4 errors');
+                await assertPluginError(stream, 'Failed with 5 errors');
             },
         )
         .timeout(10000);
