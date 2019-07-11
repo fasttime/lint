@@ -56,7 +56,14 @@ task
         fork
         (
             nycPath,
-            ['--reporter=html', '--reporter=text-summary', '--', mochaPath, 'test/test.js'],
+            [
+                '--reporter=html',
+                '--reporter=text-summary',
+                '--',
+                mochaPath,
+                '--check-leaks',
+                'test/test.js',
+            ],
         );
         childProcess.on('exit', code => callback(code && 'Test failed'));
     },

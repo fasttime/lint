@@ -149,7 +149,8 @@ describe
                     [filename_ts]:      'Object();',
                     [filename_feature]: '!\n',
                 };
-                const stream = testLint({ src, parserOptions: { project: 'tsconfig-test.json' } });
+                const stream =
+                testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
                 await assertPluginError(stream, 'Failed with 5 errors');
             },
         )
@@ -214,6 +215,32 @@ describe
                 const src = { [filename]: '\'use strict\';' };
                 const stream = testLint({ src, fix: true });
                 await endOfStream(stream);
+            },
+        );
+
+        it
+        (
+            'finds no errors in a TypeScript file',
+            async () =>
+            {
+                const filename = createFilename('.ts');
+                const src = { [filename]: 'void 0;\n' };
+                const stream =
+                testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
+            'finds errors in a TypeScript file',
+            async () =>
+            {
+                const filename = createFilename('.ts');
+                const src = { [filename]: '{}' };
+                const stream =
+                testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
+                await assertPluginError(stream, 'Failed with 3 errors');
             },
         );
 
