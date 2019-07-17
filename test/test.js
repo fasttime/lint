@@ -237,10 +237,10 @@ describe
             async () =>
             {
                 const filename = createFilename('.ts');
-                const src = { [filename]: '{}' };
+                const src = { [filename]: '/// <reference path="doo"/>\n{}' };
                 const stream =
                 testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
-                await assertPluginError(stream, 'Failed with 3 errors');
+                await assertPluginError(stream, 'Failed with 5 errors');
             },
         );
 
