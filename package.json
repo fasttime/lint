@@ -1,6 +1,6 @@
 {
   "name": "gulp-fasttime-lint",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "Gulp plugin for ESLint validation with fasttime presets.",
   "keywords": [
     "eslint",
@@ -35,7 +35,7 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "~1.13.0",
     "@typescript-eslint/parser": "~1.13.0",
-    "eslint-plugin-fasttime-rules": "~0.2.0",
+    "eslint-plugin-fasttime-rules": "~0.3.0",
     "gherkin": "~5.1.0",
     "gulp-eslint": "~6.0.0",
     "gulp-tap": "~1.0.1",
