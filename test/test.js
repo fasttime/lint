@@ -136,6 +136,10 @@ describe
             'finds multiple errors in files with the same configuration',
             async () =>
             {
+                const setPrepareWatchProgram = require('./set-prepare-watch-program');
+
+                const tsSourceText = 'Object();';
+                setPrepareWatchProgram(() => tsSourceText);
                 const filename_cjs      = createFilename('.cjs');
                 const filename_js       = createFilename('.js');
                 const filename_mjs      = createFilename('.mjs');
@@ -146,7 +150,7 @@ describe
                     [filename_cjs]:     '\'use strict\'; \n',
                     [filename_js]:      '\'use strict\';',
                     [filename_mjs]:     '"use strict";\n',
-                    [filename_ts]:      'Object();',
+                    [filename_ts]:      tsSourceText,
                     [filename_feature]: '!\n',
                 };
                 const stream =
@@ -223,8 +227,12 @@ describe
             'finds no errors in a TypeScript file',
             async () =>
             {
+                const setPrepareWatchProgram = require('./set-prepare-watch-program');
+
+                const sourceText = 'void 0;\n';
+                setPrepareWatchProgram(() => sourceText);
                 const filename = createFilename('.ts');
-                const src = { [filename]: 'void 0;\n' };
+                const src = { [filename]: sourceText };
                 const stream =
                 testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
                 await endOfStream(stream);
@@ -236,8 +244,12 @@ describe
             'finds errors in a TypeScript file',
             async () =>
             {
+                const setPrepareWatchProgram = require('./set-prepare-watch-program');
+
+                const tsSourceText = '/// <reference path="doo"/>\n{}';
+                setPrepareWatchProgram(() => tsSourceText);
                 const filename = createFilename('.ts');
-                const src = { [filename]: '/// <reference path="doo"/>\n{}' };
+                const src = { [filename]: tsSourceText };
                 const stream =
                 testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
                 await assertPluginError(stream, 'Failed with 5 errors');
