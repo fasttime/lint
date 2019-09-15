@@ -1,6 +1,6 @@
 {
   "name": "gulp-fasttime-lint",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Gulp plugin for ESLint validation with fasttime presets.",
   "keywords": [
     "eslint",
