@@ -44,6 +44,23 @@ task
 
 task
 (
+    'check-eslint-rules',
+    done =>
+    {
+        let error;
+        const eslintRulesOk = require('./check-eslint-rules');
+        if (!eslintRulesOk)
+        {
+            const PluginError = require('plugin-error');
+
+            error = new PluginError('check-eslint-rules', 'Task check-eslint-rules failed');
+        }
+        done(error);
+    },
+);
+
+task
+(
     'test',
     callback =>
     {
@@ -69,4 +86,4 @@ task
     },
 );
 
-task('default', series('lint', 'test'));
+task('default', series('lint', 'check-eslint-rules', 'test'));

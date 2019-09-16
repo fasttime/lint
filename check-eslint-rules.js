@@ -43,77 +43,79 @@ const listRules =
     console.log(horizontalRule);
 };
 
-const ruleDir = getPackageFolder('eslint', 'lib/rules');
+const deprecatedRuleListMap = new Map();
+const unconfiguredRuleListMap = new Map();
+const miscategorizedRuleListMap = new Map();
 {
+    function registerPluginRules(plugin, category, rulePrefix)
+    {
+        const { rules } = require(plugin);
+
+        for (const [basename, { meta: { deprecated } }] of Object.entries(rules))
+        {
+            const ruleName = `${rulePrefix}/${basename}`;
+            registerRule(ruleName, category, deprecated);
+        }
+    }
+
+    function registerRule(ruleName, category, deprecated)
+    {
+        const ruleInfo = { category, deprecated };
+        ruleMap.set(ruleName, ruleInfo);
+        unconfiguredRuleSet.add(ruleName);
+    }
+
+    const ruleDir = getPackageFolder('eslint', 'lib/rules');
     const ruleMap = new Map();
-    const deprecatedRuleListMap = new Map();
-    const unconfiguredRuleListMap = new Map();
-    const miscategorizedRuleListMap = new Map();
+    const unconfiguredRuleSet = new Set();
     {
-        function registerPluginRules(plugin, category, rulePrefix)
-        {
-            const { rules } = require(plugin);
+        const ruleInputMap = require(ruleDir);
 
-            for (const [basename, { meta: { deprecated } }] of Object.entries(rules))
+        for (const [ruleName, { meta: { deprecated, docs: { category } } }] of ruleInputMap)
+            registerRule(ruleName, category, deprecated);
+    }
+    registerPluginRules
+    ('@typescript-eslint/eslint-plugin', 'plugin:@typescript-eslint', '@typescript-eslint');
+    registerPluginRules
+    ('eslint-plugin-fasttime-rules', 'plugin:fasttime-rules', 'fasttime-rules');
+    {
+        const { ruleDefinitions } = require('./lib/eslint-rules');
+        for (const { category: actualCategory, ruleConfig } of ruleDefinitions)
+        {
+            const ruleList = Object.keys(ruleConfig);
+            for (const ruleName of ruleList)
             {
-                const ruleName = `${rulePrefix}/${basename}`;
-                registerRule(ruleName, category, deprecated);
+                unconfiguredRuleSet.delete(ruleName);
+                const ruleInfo = ruleMap.get(ruleName);
+                const { category: expectedCategory, deprecated } = ruleInfo;
+                if (deprecated)
+                    addToRuleListMap(deprecatedRuleListMap, expectedCategory, ruleName);
+                if (actualCategory !== expectedCategory)
+                    addToRuleListMap(miscategorizedRuleListMap, expectedCategory, ruleName);
             }
         }
-
-        function registerRule(ruleName, category, deprecated)
-        {
-            const ruleInfo = { category, deprecated };
-            ruleMap.set(ruleName, ruleInfo);
-            unconfiguredRuleSet.add(ruleName);
-        }
-
-        const unconfiguredRuleSet = new Set();
-        {
-            const ruleInputMap = require(ruleDir);
-
-            for (const [ruleName, { meta: { deprecated, docs: { category } } }] of ruleInputMap)
-                registerRule(ruleName, category, deprecated);
-        }
-        registerPluginRules
-        ('@typescript-eslint/eslint-plugin', 'plugin:@typescript-eslint', '@typescript-eslint');
-        registerPluginRules
-        ('eslint-plugin-fasttime-rules', 'plugin:fasttime-rules', 'fasttime-rules');
-        {
-            const { ruleDefinitions } = require('./lib/eslint-rules');
-            for (const { category: actualCategory, ruleConfig } of ruleDefinitions)
-            {
-                const ruleList = Object.keys(ruleConfig);
-                for (const ruleName of ruleList)
-                {
-                    unconfiguredRuleSet.delete(ruleName);
-                    const ruleInfo = ruleMap.get(ruleName);
-                    const { category: expectedCategory, deprecated } = ruleInfo;
-                    if (deprecated)
-                        addToRuleListMap(deprecatedRuleListMap, expectedCategory, ruleName);
-                    if (actualCategory !== expectedCategory)
-                        addToRuleListMap(miscategorizedRuleListMap, expectedCategory, ruleName);
-                }
-            }
-        }
-        for (const ruleName of unconfiguredRuleSet)
-        {
-            const { category, deprecated } = ruleMap.get(ruleName);
-            if (!deprecated)
-                addToRuleListMap(unconfiguredRuleListMap, category, ruleName);
-        }
     }
-    if
-    (unconfiguredRuleListMap.size || deprecatedRuleListMap.size || miscategorizedRuleListMap.size)
+    for (const ruleName of unconfiguredRuleSet)
     {
-        console.log(colors.red('Found problems in ESLint rule configuration file eslint-rules.js'));
-        listRules('Rules not configured', unconfiguredRuleListMap);
-        listRules('Deprecated rules configured', deprecatedRuleListMap);
-        listRules('Rules in a wrong category', miscategorizedRuleListMap);
-    }
-    else
-    {
-        console.log
-        (colors.green('No problems found in ESLint rule configuration file eslint-rules.js'));
+        const { category, deprecated } = ruleMap.get(ruleName);
+        if (!deprecated)
+            addToRuleListMap(unconfiguredRuleListMap, category, ruleName);
     }
 }
+const ok =
+!(unconfiguredRuleListMap.size || deprecatedRuleListMap.size || miscategorizedRuleListMap.size);
+if (ok)
+{
+    console.log
+    (colors.green('No problems found in ESLint rule configuration file eslint-rules.js'));
+}
+else
+{
+    console.log(colors.red('Found problems in ESLint rule configuration file eslint-rules.js'));
+    listRules('Rules not configured', unconfiguredRuleListMap);
+    listRules('Deprecated rules configured', deprecatedRuleListMap);
+    listRules('Rules in a wrong category', miscategorizedRuleListMap);
+}
+if (require.main === module)
+    process.exitCode = ok ? 0 : 1;
+module.exports = ok;
