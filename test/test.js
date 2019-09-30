@@ -188,6 +188,30 @@ describe
 
         it
         (
+            'infers es2017 environment from ecmaVersion explicitly ≥ 2017',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: '\'use strict\';\n\nSharedArrayBuffer();\n' };
+                const stream = testLint({ src, parserOptions: { ecmaVersion: 2017 } });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
+            'infers es2020 environment from ecmaVersion explicitly ≥ 2020',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: '\'use strict\';\n\nBigInt();\n' };
+                const stream = testLint({ src, parserOptions: { ecmaVersion: 2020 } });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
             'infers ecmaVersion ≥ 2015 from sourceType "module"',
             async () =>
             {
