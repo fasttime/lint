@@ -13,7 +13,7 @@ exports.lint =
 {
     const lint = require('gulp-fasttime-lint');
 
-    const stream = lint({ src, envs, fix, globals, parserOptions, rules });
+    const stream = lint({ src, envs, fix, globals, parserOptions, plugins, rules });
     return stream;
 };
 ```
@@ -24,8 +24,8 @@ You can also specify more than one configuration.
 const stream = lint([{ src: src1, ...config1 }, { src: src2, ...config2 }]);
 ```
 
-The settings `envs`, `fix`, `globals`, `parserOptions` and `rules` are only relevant to JavaScript
-and TypeScript files, and are ignored for Gherkin files.
+The setting `src` is used to specify the files to be linted; all the other settings are only
+relevant to JavaScript and TypeScript files, and are ignored for Gherkin files.
 
 It is fine to specify different kinds of source files in the same `src` glob pattern(s), as long as
 other configuration settings don't interfere.
