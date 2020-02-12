@@ -33,9 +33,9 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
+    "@fasttime/eslint-plugin": "~0.4.0",
     "@typescript-eslint/eslint-plugin": "~2.19.0",
     "@typescript-eslint/parser": "~2.19.0",
-    "eslint-plugin-fasttime-rules": "~0.3.0",
     "gherkin": "~9.0.0",
     "gulp-eslint": "~6.0.0",
     "gulp-tap": "~2.0.0",

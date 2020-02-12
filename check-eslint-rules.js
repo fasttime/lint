@@ -76,8 +76,7 @@ const miscategorizedRuleListMap = new Map();
     }
     registerPluginRules
     ('@typescript-eslint/eslint-plugin', 'plugin:@typescript-eslint', '@typescript-eslint');
-    registerPluginRules
-    ('eslint-plugin-fasttime-rules', 'plugin:fasttime-rules', 'fasttime-rules');
+    registerPluginRules('@fasttime/eslint-plugin', 'plugin:@fasttime', '@fasttime');
     {
         const { ruleDefinitions } = require('./lib/eslint-rules');
         for (const { category: actualCategory, ruleConfig } of ruleDefinitions)
