@@ -109,7 +109,7 @@ describe
 
         it
         (
-            'finds one error',
+            'finds one error in a JavaScript file',
             async () =>
             {
                 const filename = createFilename();
@@ -294,6 +294,18 @@ describe
 
         it
         (
+            'finds one error in a Gherkin file',
+            async () =>
+            {
+                const filename = createFilename('.feature');
+                const src = { [filename]: 'Feature:\nScenario:\nWhen Foo\nBar\n' };
+                const stream = testLint({ src });
+                await assertPluginError(stream, 'Failed with 1 error');
+            },
+        );
+
+        it
+        (
             'finds errors in a Gherkin file',
             async () =>
             {
@@ -301,9 +313,7 @@ describe
                 const src =
                 {
                     [filename]:
-                    '@Feature: Core: Scenarios, Steps, Mappings\n\nScenario: All steps passing ' +
-                    'means the scenario passes\nGiven the step "I add 4 and 5" has a passing ' +
-                    'mapping\n',
+                    'A\n\nB\nC\n',
                 };
                 const stream = testLint({ src });
                 await assertPluginError(stream, 'Failed with 3 errors');
