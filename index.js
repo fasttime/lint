@@ -24,7 +24,7 @@ function redText(str)
 }
 
 if (semver.satisfies(process.version, '>=10.0.0'))
-    module.exports = require('./lib/gulp-fasttime-lint');
+    module.exports = require('./lib/gulp-lint');
 else
 {
     var exports = module.exports = noLint.bind();
@@ -33,5 +33,5 @@ else
     {
         return noLint;
     };
-    console.error(redText('Validation not available in Node.js < 10'));
+    console.error(redText('Linting not available in Node.js < 10'));
 }

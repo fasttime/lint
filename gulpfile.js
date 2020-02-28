@@ -1,15 +1,17 @@
 'use strict';
 
-const { series, task } = require('gulp');
+const { parallel, series, task } = require('gulp');
 
 task
 (
     'clean',
     async () =>
     {
-        const del = require('del');
+        const { promises: { rmdir } } = require('fs');
 
-        await del(['.nyc_output', 'coverage']);
+        const paths = ['.nyc_output', 'coverage'];
+        const options = { recursive: true };
+        await Promise.all(paths.map(path => rmdir(path, options)));
     },
 );
 
@@ -86,4 +88,4 @@ task
     },
 );
 
-task('default', series('lint', 'check-eslint-rules', 'test'));
+task('default', series(parallel('clean', 'lint'), 'check-eslint-rules', 'test'));

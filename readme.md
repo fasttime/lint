@@ -1,9 +1,9 @@
-# gulp-fasttime-lint · [![npm version][npm badge]][npm url]
+# @fasttime/gulp-lint · [![npm version][npm badge]][npm url]
 
-[Gulp](https://gulpjs.com/) plugin for [ESLint](https://eslint.org/) validation with
+[Gulp](https://gulpjs.com/) plugin for linting with
 [fasttime](https://github.com/fasttime?tab=repositories) presets.
 
-Validates JavaScript, TypeScript and Gherkin files.
+Lints JavaScript, TypeScript and Gherkin files.
 
 ## Usage
 
@@ -11,7 +11,7 @@ Validates JavaScript, TypeScript and Gherkin files.
 exports.lint =
 () =>
 {
-    const lint = require('gulp-fasttime-lint');
+    const lint = require('@fasttime/gulp-lint');
 
     const stream = lint({ src, envs, fix, globals, parserOptions, plugins, rules });
     return stream;
@@ -30,5 +30,5 @@ relevant to JavaScript and TypeScript files, and are ignored for Gherkin files.
 It is fine to specify different kinds of source files in the same `src` glob pattern(s), as long as
 other configuration settings don't interfere.
 
-[npm badge]: https://badge.fury.io/js/gulp-fasttime-lint.svg
-[npm url]: https://www.npmjs.com/package/gulp-fasttime-lint
+[npm badge]: https://badge.fury.io/js/@fasttime%2Fgulp-lint.svg
+[npm url]: https://www.npmjs.com/package/@fasttime/gulp-lint
