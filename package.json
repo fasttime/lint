@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/gulp-lint",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "Gulp plugin for linting with fasttime presets.",
   "keywords": [
     "eslint",
@@ -18,9 +18,10 @@
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
-    "index.js",
+    "index.{d.ts,js}",
     "lib/*.js"
   ],
+  "types": "index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "test"

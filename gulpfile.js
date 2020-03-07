@@ -26,8 +26,9 @@ task
         lint
         (
             {
-                src: 'index.js',
+                src: 'index.{d.ts,js}',
                 envs: 'node',
+                parserOptions: { project: 'tsconfig.json' },
             },
             {
                 src: ['*.js', 'test/**/*.js', '!index.js'],
