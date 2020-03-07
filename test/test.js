@@ -270,13 +270,13 @@ describe
             {
                 const setPrepareWatchProgram = require('./set-prepare-watch-program');
 
-                const tsSourceText = '/// <reference path="doo"/>\n{}';
+                const tsSourceText = '///\t<reference path="doo"/>\n{}';
                 setPrepareWatchProgram(() => tsSourceText);
                 const filename = createFilename('.ts');
                 const src = { [filename]: tsSourceText };
                 const stream =
                 testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
-                await assertPluginError(stream, 'Failed with 5 errors');
+                await assertPluginError(stream, 'Failed with 6 errors');
             },
         );
 

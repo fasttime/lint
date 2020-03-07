@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 declare namespace lint
 {
     interface Config
@@ -12,6 +14,6 @@ declare namespace lint
     }
 }
 
-declare function lint(...configs: readonly lint.Config[]): any;
+declare function lint(...configs: lint.Config[]): NodeJS.ReadWriteStream;
 
 export = lint;

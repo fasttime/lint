@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/gulp-lint",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "Gulp plugin for linting with fasttime presets.",
   "keywords": [
     "eslint",
@@ -57,6 +57,7 @@
     "vinyl-source-stream": "~2.0.0"
   },
   "peerDependencies": {
+    "@types/node": "*",
     "eslint": ">=6.2.0"
   }
 }
