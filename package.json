@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/gulp-lint",
-  "version": "0.26.0",
+  "version": "0.27.0",
   "description": "Gulp plugin for linting with fasttime presets.",
   "keywords": [
     "eslint",
