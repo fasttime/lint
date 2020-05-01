@@ -1,19 +1,14 @@
-/// <reference types="node" />
+import { Linter } from 'eslint';
 
-declare namespace lint
+export interface Config
 {
-    interface Config
-    {
-        src:            string | string[];
-        envs?:          string | string[];
-        fix?:           boolean;
-        globals?:       string[];
-        parserOptions?: object;
-        plugins?:       string | string[];
-        rules?:         object;
-    }
+    src:            string | string[];
+    envs?:          string | string[];
+    fix?:           boolean;
+    globals?:       string[];
+    parserOptions?: Linter.ParserOptions;
+    plugins?:       string | string[];
+    rules?:         { [name: string]: Linter.RuleLevel | Linter.RuleLevelAndOptions; };
 }
 
-declare function lint(...configs: lint.Config[]): NodeJS.ReadWriteStream;
-
-export = lint;
+export default function lint(...configs: Config[]): NodeJS.ReadWriteStream;
