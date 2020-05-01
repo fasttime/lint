@@ -3,8 +3,25 @@ name: Node.js CI
 on: [push, pull_request]
 
 jobs:
-  lint-and-test:
-    name: lint & test (Node.js ${{ matrix.node-version }})
+
+  lint-and-check-eslint-rules:
+
+    name: lint & check-eslint-rules
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - run: npm install
+    - run: gulp lint
+    - run: gulp check-eslint-rules
+
+  test:
+
+    name: test (Node.js ${{ matrix.node-version }})
 
     runs-on: ubuntu-latest
 
@@ -17,4 +34,5 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run build
+    - run: npm install
+    - run: npm test

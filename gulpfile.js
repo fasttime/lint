@@ -9,9 +9,7 @@ task
     {
         const { promises: { rmdir } } = require('fs');
 
-        const paths = ['.nyc_output', 'coverage'];
-        const options = { recursive: true };
-        await Promise.all(paths.map(path => rmdir(path, options)));
+        await rmdir('coverage', { recursive: true });
     },
 );
 
@@ -73,16 +71,15 @@ task
         const { fork } = require('child_process');
 
         const { resolve } = require;
-        const nycPath = resolve('nyc/bin/nyc');
+        const c8Path = resolve('c8/bin/c8');
         const mochaPath = resolve('mocha/bin/mocha');
         const childProcess =
         fork
         (
-            nycPath,
+            c8Path,
             [
                 '--reporter=html',
                 '--reporter=text-summary',
-                '--',
                 mochaPath,
                 '--check-leaks',
                 'test/test.js',
