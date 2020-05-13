@@ -347,7 +347,7 @@ describe
     'In an unsupported environment',
     () =>
     {
-        const proxyquire = require('proxyquire');
+        const postrequire = require('postrequire');
 
         beforeEach
         (
@@ -373,7 +373,22 @@ describe
             'does nothing',
             () =>
             {
-                const lint = proxyquire('..', { semver: { satisfies: () => false } });
+                const lint =
+                postrequire
+                (
+                    '..',
+                    stubs =>
+                    {
+                        const { require } = stubs;
+                        stubs.require =
+                        id =>
+                        {
+                            const exports =
+                            id !== 'semver' ? require(id) : { satisfies: () => false };
+                            return exports;
+                        };
+                    },
+                );
                 lint();
                 lint.with()();
             },
