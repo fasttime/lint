@@ -47,18 +47,18 @@ const deprecatedRuleListMap = new Map();
 const unconfiguredRuleListMap = new Map();
 const miscategorizedRuleListMap = new Map();
 {
-    function registerPluginRules(plugin, category, rulePrefix)
+    function registerPluginRules(plugin, rulePrefix)
     {
         const { rules } = require(plugin);
 
-        for (const [basename, { meta: { deprecated } }] of Object.entries(rules))
+        for (const [basename, rule] of Object.entries(rules))
         {
             const ruleName = `${rulePrefix}/${basename}`;
-            registerRule(ruleName, category, deprecated);
+            registerRule(ruleName, rule);
         }
     }
 
-    function registerRule(ruleName, category, deprecated)
+    function registerRule(ruleName, { meta: { deprecated, docs: { category } } })
     {
         const ruleInfo = { category, deprecated };
         ruleMap.set(ruleName, ruleInfo);
@@ -71,13 +71,12 @@ const miscategorizedRuleListMap = new Map();
     {
         const ruleInputMap = require(ruleDir);
 
-        for (const [ruleName, { meta: { deprecated, docs: { category } } }] of ruleInputMap)
-            registerRule(ruleName, category, deprecated);
+        for (const [ruleName, rule] of ruleInputMap)
+            registerRule(ruleName, rule);
     }
-    registerPluginRules
-    ('@typescript-eslint/eslint-plugin', 'plugin:@typescript-eslint', '@typescript-eslint');
-    registerPluginRules('@fasttime/eslint-plugin', 'plugin:@fasttime', '@fasttime');
-    registerPluginRules('eslint-plugin-node', 'plugin:node', 'node');
+    registerPluginRules('@typescript-eslint/eslint-plugin', '@typescript-eslint');
+    registerPluginRules('@fasttime/eslint-plugin', '@fasttime');
+    registerPluginRules('eslint-plugin-node', 'node');
     {
         const { ruleDefinitions } = require('./lib/eslint-rules');
         for (const { category: actualCategory, ruleConfig } of ruleDefinitions)
