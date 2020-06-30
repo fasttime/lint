@@ -11,7 +11,6 @@ describe
         const assert            = require('assert');
         const gulpTap           = require('gulp-tap');
         const mergeStream       = require('merge-stream');
-        const PluginError       = require('plugin-error');
         const vinylBuffer       = require('vinyl-buffer');
         const vinylSourceStream = require('vinyl-source-stream');
 
@@ -25,7 +24,7 @@ describe
             }
             catch (error)
             {
-                if (!(error instanceof PluginError))
+                if (!(error instanceof Error) || error.constructor.name !== 'PluginError')
                     throw error;
                 const actualMessage = error.message;
                 if (actualMessage !== expectedMessage)
