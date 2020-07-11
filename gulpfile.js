@@ -2,6 +2,16 @@
 
 const { parallel, series, task } = require('gulp');
 
+{ // Suppress deprecation warning DEP0097
+    const { emitWarning } = process;
+    process.emitWarning =
+    (warning, type, code, ...extraArgs) =>
+    {
+        if (code !== 'DEP0097')
+            emitWarning(warning, type, code, ...extraArgs);
+    };
+}
+
 task
 (
     'clean',
