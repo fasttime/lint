@@ -2,6 +2,8 @@
 
 'use strict';
 
+const LONG_TIMEOUT = 10000;
+
 describe
 (
     'In a supported environemnt',
@@ -157,7 +159,7 @@ describe
                 await assertPluginError(stream, 'Failed with 5 errors');
             },
         )
-        .timeout(10000);
+        .timeout(LONG_TIMEOUT);
 
         it
         (
@@ -260,7 +262,8 @@ describe
                 testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
                 await endOfStream(stream);
             },
-        );
+        )
+        .timeout(LONG_TIMEOUT);
 
         it
         (
@@ -277,7 +280,8 @@ describe
                 testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
                 await assertPluginError(stream, 'Failed with 6 errors');
             },
-        );
+        )
+        .timeout(LONG_TIMEOUT);
 
         it
         (
