@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/gulp-lint",
-  "version": "0.32.0",
+  "version": "0.32.1",
   "description": "Gulp plugin for linting with fasttime presets.",
   "keywords": [
     "eslint",
@@ -39,7 +39,7 @@
     "@types/eslint": "7",
     "@typescript-eslint/eslint-plugin": "4.2",
     "@typescript-eslint/parser": "4.2",
-    "eslint": "7.9",
+    "eslint": "7.10",
     "eslint-plugin-node": "11",
     "gherkin": "9",
     "gulp-eslint7": "0.3",
