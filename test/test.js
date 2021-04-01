@@ -229,8 +229,8 @@ describe
             async () =>
             {
                 const filename = createFilename();
-                const src = { [filename]: '\'use strict\';\nObject(/(.)/);\n' };
-                const stream = testLint({ src, parserOptions: { ecmaVersion: 2017 } });
+                const src = { [filename]: '\'use strict\';\n\nObject.assign({ }, { });\n' };
+                const stream = testLint({ src, parserOptions: { ecmaVersion: 2018 } });
                 await assertPluginError(stream, 'Failed with 1 error');
             },
         );
