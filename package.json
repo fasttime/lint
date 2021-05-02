@@ -35,13 +35,13 @@
     "test": "mocha --check-leaks test/test.js"
   },
   "dependencies": {
+    "@cucumber/gherkin": "18",
     "@fasttime/eslint-plugin": "0.5",
     "@types/eslint": "7",
-    "@typescript-eslint/eslint-plugin": "4.20",
-    "@typescript-eslint/parser": "4.20",
-    "eslint": "7.23",
+    "@typescript-eslint/eslint-plugin": "4.22",
+    "@typescript-eslint/parser": "4.22",
+    "eslint": "7.25",
     "eslint-plugin-node": "11",
-    "gherkin": "9",
     "gulp-eslint7": "0.3",
     "gulp-tap": "2",
     "merge-stream": "2",
