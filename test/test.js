@@ -213,6 +213,18 @@ describe
 
         it
         (
+            'infers es2021 environment from ecmaVersion explicitly ≥ 2021',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: '\'use strict\';\n\nWeakRef();\n' };
+                const stream = testLint({ src, parserOptions: { ecmaVersion: 2021 } });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
             'infers ecmaVersion ≥ 2015 from sourceType "module"',
             async () =>
             {
