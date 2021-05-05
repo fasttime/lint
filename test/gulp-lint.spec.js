@@ -6,7 +6,7 @@ const LONG_TIMEOUT = 10000;
 
 describe
 (
-    'In a supported environemnt',
+    'gulp-lint in a supported environemnt',
     () =>
     {
         const lint              = require('..');
@@ -102,7 +102,7 @@ describe
                 const actualFiles = [];
                 stream.on('data', file => actualFiles.push(file));
                 await endOfStream(stream);
-                assert.equal(actualFiles.length, 1);
+                assert.strictEqual(actualFiles.length, 1);
                 const [file] = actualFiles;
                 assert.strictEqual(file.basename, filename);
             },
@@ -261,6 +261,30 @@ describe
 
         it
         (
+            'handles a legacy envs array parameter',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: '\'use strict\';\n\nprocess.exitCode = 0;\n' };
+                const stream = testLint({ src, envs: ['es2015', 'node'] });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
+            'handles a legacy envs string parameter',
+            async () =>
+            {
+                const filename = createFilename();
+                const src = { [filename]: '\'use strict\';\n\nprocess.exitCode = 0;\n' };
+                const stream = testLint({ src, envs: 'node' });
+                await endOfStream(stream);
+            },
+        );
+
+        it
+        (
             'finds no errors in a TypeScript file',
             async () =>
             {
@@ -359,7 +383,7 @@ describe
 
 describe
 (
-    'In an unsupported environment',
+    'gulp-lint in an unsupported environment',
     () =>
     {
         const postrequire = require('postrequire');

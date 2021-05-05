@@ -53,12 +53,15 @@ task
     done =>
     {
         let error;
-        const eslintRulesOk = require('./check-eslint-rules');
-        if (!eslintRulesOk)
         {
-            const PluginError = require('plugin-error');
+            const eslintRulesOk = require('./check-eslint-rules');
 
-            error = new PluginError('check-eslint-rules', 'Task check-eslint-rules failed');
+            if (!eslintRulesOk)
+            {
+                const PluginError = require('plugin-error');
+
+                error = new PluginError('check-eslint-rules', 'Task check-eslint-rules failed');
+            }
         }
         done(error);
     },
@@ -83,7 +86,7 @@ task
                 '--reporter=text-summary',
                 mochaPath,
                 '--check-leaks',
-                'test/test.js',
+                'test/**/*.spec.js',
             ],
         );
         childProcess.on('exit', code => callback(code && 'Test failed'));

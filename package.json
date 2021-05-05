@@ -32,7 +32,7 @@
   },
   "scripts": {
     "build": "npm install && gulp",
-    "test": "mocha --check-leaks test/test.js"
+    "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
     "@cucumber/gherkin": "18",
