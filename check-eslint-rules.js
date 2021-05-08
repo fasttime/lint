@@ -3,6 +3,7 @@
 'use strict';
 
 const colors    = require('ansi-colors');
+const fancyLog  = require('fancy-log');
 const path      = require('path');
 
 const addToRuleListMap =
@@ -105,12 +106,12 @@ const ok =
 !(unconfiguredRuleListMap.size || deprecatedRuleListMap.size || miscategorizedRuleListMap.size);
 if (ok)
 {
-    console.log
+    fancyLog
     (colors.green('No problems found in ESLint rule configuration file eslint-rules.js'));
 }
 else
 {
-    console.log(colors.red('Found problems in ESLint rule configuration file eslint-rules.js'));
+    fancyLog(colors.red('Found problems in ESLint rule configuration file eslint-rules.js'));
     listRules('Rules not configured', unconfiguredRuleListMap);
     listRules('Deprecated rules configured', deprecatedRuleListMap);
     listRules('Rules in a wrong category', miscategorizedRuleListMap);

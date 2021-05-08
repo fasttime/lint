@@ -90,6 +90,13 @@ describe
             return promise;
         }
 
+        function findMatch(str, regExp)
+        {
+            const match = str.match(regExp);
+            if (match)
+                return match[0];
+        }
+
         function noop()
         { }
 
@@ -118,13 +125,6 @@ describe
                 stream.totalErrorCount      = totalErrorCount;
                 stream.totalWarningCount    = totalWarningCount;
             };
-            const findMatch =
-            (str, regExp) =>
-            {
-                const match = str.match(regExp);
-                if (match)
-                    return match[0];
-            };
             const lint =
             postrequire
             (
@@ -141,6 +141,9 @@ describe
                         case 'fancy-log':
                             exports = fancyLog;
                             break;
+                        case 'vinyl-fs':
+                            exports = { dest: vinylDest, src: vinylSrc };
+                            return exports;
                         default:
                             exports = require(moduleId);
                             break;
@@ -149,7 +152,7 @@ describe
                     };
                 },
             );
-            const stream = lint.with({ vinylDest, vinylSrc })(...configList);
+            const stream = lint(...configList);
             return stream;
         }
 
