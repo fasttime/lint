@@ -1,3 +1,5 @@
 'use strict';
 
-module.exports = require('./lib/gulp-lint');
+exports.LintError   = require('./lib/lint-error');
+exports.gulpLint    = require('./lib/gulp-lint');
+exports.lint        = require('./lib/lint');

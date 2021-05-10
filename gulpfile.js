@@ -17,11 +17,11 @@ task
 task
 (
     'lint',
-    () =>
+    async () =>
     {
-        const lint = require('.');
+        const { lint } = require('.');
 
-        const stream =
+        await
         lint
         (
             {
@@ -43,7 +43,6 @@ task
                 parserOptions: { ecmaVersion: 9 },
             },
         );
-        return stream;
     },
 );
 

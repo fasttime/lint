@@ -1,7 +1,7 @@
 {
-  "name": "@fasttime/gulp-lint",
+  "name": "@fasttime/lint",
   "version": "0.37.1",
-  "description": "Gulp plugin for linting with fasttime presets.",
+  "description": "Universal linter with fasttime presets.",
   "keywords": [
     "eslint",
     "gulp",
@@ -13,8 +13,8 @@
     "validation",
     "validator"
   ],
-  "homepage": "https://github.com/fasttime/gulp-lint",
-  "bugs": "https://github.com/fasttime/gulp-lint/issues",
+  "homepage": "https://github.com/fasttime/lint",
+  "bugs": "https://github.com/fasttime/lint/issues",
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fasttime/gulp-lint.git"
+    "url": "https://github.com/fasttime/lint.git"
   },
   "scripts": {
     "build": "npm install && gulp",
@@ -43,6 +43,7 @@
     "eslint": "7.25",
     "eslint-plugin-node": "11",
     "fancy-log": "1",
+    "fast-glob": "3",
     "gulp-eslint7": "0.3",
     "gulp-tap": "2",
     "merge-stream": "2",
