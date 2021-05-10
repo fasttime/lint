@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/lint",
-  "version": "0.37.1",
+  "version": "1.0.0-beta.1",
   "description": "Universal linter with fasttime presets.",
   "keywords": [
     "eslint",
