@@ -5,7 +5,7 @@
 const assert    = require('assert');
 const { join }  = require('path');
 
-const LONG_TIMEOUT = 10000;
+const LONG_TIMEOUT = 15000;
 
 function findMatch(str, regExp)
 {

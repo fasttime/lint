@@ -25,20 +25,11 @@ task
         lint
         (
             {
-                src: 'index.js',
-                envs: 'node',
-            },
-            {
                 src: 'index.d.ts',
                 parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
             },
             {
-                src: ['*.js', 'test/**/*.js', '!index.js'],
-                envs: 'node',
-                parserOptions: { ecmaVersion: 9 },
-            },
-            {
-                src: 'lib/**/*.js',
+                src: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                 envs: 'node',
                 parserOptions: { ecmaVersion: 9 },
             },
