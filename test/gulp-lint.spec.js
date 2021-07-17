@@ -24,7 +24,7 @@ describe
     () =>
     {
         const { assertProblemCount, attachLogger, test }    = require('./test');
-        const assert                                        = require('assert');
+        const { AssertionError }                            = require('assert');
         const gulpTap                                       = require('gulp-tap');
         const mergeStream                                   = require('merge-stream');
         const postrequire                                   = require('postrequire');
@@ -59,7 +59,7 @@ describe
             if (options)
             {
                 options.stackStartFn = assertLintFailure;
-                const assertionError = new assert.AssertionError(options);
+                const assertionError = new AssertionError(options);
                 throw assertionError;
             }
             assertProblemCount

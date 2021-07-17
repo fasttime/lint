@@ -8,7 +8,7 @@ describe
     () =>
     {
         const { assertProblemCount, attachLogger, test }    = require('./test');
-        const assert                                        = require('assert');
+        const { AssertionError }                            = require('assert');
         const postrequire                                   = require('postrequire');
 
         async function assertLintFailure
@@ -28,7 +28,7 @@ describe
                         expected: 'Lint failed',
                         stackStartFn: assertLintFailure,
                     };
-                    const assertionError = new assert.AssertionError(options);
+                    const assertionError = new AssertionError(options);
                     throw assertionError;
                 }
                 if (showStack !== false)
@@ -39,7 +39,7 @@ describe
                         expected: false,
                         stackStartFn: assertLintFailure,
                     };
-                    const assertionError = new assert.AssertionError(options);
+                    const assertionError = new AssertionError(options);
                     throw assertionError;
                 }
                 if (stack !== undefined)
@@ -50,7 +50,7 @@ describe
                         expected: undefined,
                         stackStartFn: assertLintFailure,
                     };
-                    const assertionError = new assert.AssertionError(options);
+                    const assertionError = new AssertionError(options);
                     throw assertionError;
                 }
                 assertProblemCount
@@ -63,7 +63,7 @@ describe
                     message: 'Error expected but not thrown',
                     stackStartFn: assertLintFailure,
                 };
-                const assertionError = new assert.AssertionError(options);
+                const assertionError = new AssertionError(options);
                 throw assertionError;
             }
         }
@@ -106,22 +106,19 @@ describe
                         case 'fast-glob':
                             exports = pattern => [].concat(pattern);
                             break;
-                        case 'fs':
+                        case 'fs/promises':
                             exports =
                             {
-                                promises:
+                                // eslint-disable-next-line require-await
+                                async readFile(filePath)
                                 {
-                                    // eslint-disable-next-line require-await
-                                    async readFile(filePath)
-                                    {
-                                        const data = readFileMap[filePath];
-                                        return data;
-                                    },
-                                    // eslint-disable-next-line require-await
-                                    async writeFile(filePath, data)
-                                    {
-                                        writeFileMap[filePath] = data;
-                                    },
+                                    const data = readFileMap[filePath];
+                                    return data;
+                                },
+                                // eslint-disable-next-line require-await
+                                async writeFile(filePath, data)
+                                {
+                                    writeFileMap[filePath] = data;
                                 },
                             };
                             break;

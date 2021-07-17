@@ -7,7 +7,7 @@ task
     'clean',
     async () =>
     {
-        const { promises: { rm } } = require('fs');
+        const { rm } = require('fs/promises');
 
         const options = { force: true, recursive: true };
         await rm('coverage', options);
