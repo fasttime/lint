@@ -171,6 +171,35 @@ exports.test =
 
     it
     (
+        'mirrors only an unprefixed rule into a @typescript-eslint rule',
+        async () =>
+        {
+            const setPrepareWatchProgram = require('./set-prepare-watch-program');
+
+            const tsSource = 'const\tx = 0X2_000000000_0001;\n';
+            setPrepareWatchProgram(() => tsSource);
+            const fileName = mockFile('.ts', tsSource);
+            const src = fileName;
+            const lintData =
+            testLint
+            (
+                {
+                    src,
+                    parserOptions: { project: 'test/tsconfig-test.json' },
+                    rules:
+                    {
+                        'no-loss-of-precision': 'error',
+                        'no-tabs':              'error',
+                    },
+                },
+            );
+            await assertLintFailure(lintData, 2);
+        },
+    )
+    .timeout(LONG_TIMEOUT);
+
+    it
+    (
         'finds no errors in a Gherkin file',
         async () =>
         {
