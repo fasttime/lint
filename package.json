@@ -35,12 +35,12 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@cucumber/gherkin": "21",
-    "@fasttime/eslint-plugin": "0.5",
+    "@cucumber/gherkin": "22",
+    "@fasttime/eslint-plugin": "0.6",
     "@types/eslint": "7",
-    "@typescript-eslint/eslint-plugin": "4.30",
-    "@typescript-eslint/parser": "4.30",
-    "eslint": "7.32",
+    "@typescript-eslint/eslint-plugin": "5.0",
+    "@typescript-eslint/parser": "5.0",
+    "eslint": "8.0",
     "eslint-plugin-node": "11",
     "fancy-log": "1",
     "fast-glob": "3",

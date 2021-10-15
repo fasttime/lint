@@ -59,9 +59,9 @@ const miscategorizedRuleListMap = new Map();
         }
     }
 
-    function registerRule(ruleName, { meta: { deprecated, docs: { category } } })
+    function registerRule(ruleName, { meta: { deprecated, type } })
     {
-        const ruleInfo = { category, deprecated };
+        const ruleInfo = { category: type, deprecated };
         ruleMap.set(ruleName, ruleInfo);
         unconfiguredRuleSet.add(ruleName);
     }
