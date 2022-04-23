@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/lint",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Universal linter with fasttime presets.",
   "keywords": [
     "eslint",
@@ -35,12 +35,12 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@cucumber/gherkin": "22",
+    "@cucumber/gherkin": "23",
     "@fasttime/eslint-plugin": "0.6",
     "@types/eslint": "8",
-    "@typescript-eslint/eslint-plugin": "5.16",
-    "@typescript-eslint/parser": "5.16",
-    "eslint": "8.12",
+    "@typescript-eslint/eslint-plugin": "5.20",
+    "@typescript-eslint/parser": "5.20",
+    "eslint": "8.14",
     "eslint-plugin-node": "11",
     "fancy-log": "2",
     "fast-glob": "3",
