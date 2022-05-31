@@ -35,24 +35,24 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@cucumber/gherkin": "23",
+    "@cucumber/gherkin": "24",
     "@fasttime/eslint-plugin": "0.6",
     "@types/eslint": "8",
-    "@typescript-eslint/eslint-plugin": "5.23",
-    "@typescript-eslint/parser": "5.23",
-    "eslint": "8.15",
+    "@typescript-eslint/eslint-plugin": "5.27",
+    "@typescript-eslint/parser": "5.27",
+    "eslint": "8.16",
     "eslint-plugin-node": "11",
     "fancy-log": "2",
     "fast-glob": "3",
     "gulp-tap": "2",
     "merge-stream": "2",
     "plugin-error": "1",
-    "typescript": "4.6",
+    "typescript": "4.7",
     "vinyl-fs": "3"
   },
   "devDependencies": {
     "ansi-colors": "latest",
-    "c8": "latest",
+    "c8js": "latest",
     "gulp": "latest",
     "mocha": "latest",
     "postrequire": "latest",
@@ -61,5 +61,8 @@
   },
   "peerDependencies": {
     "@types/node": "*"
+  },
+  "overrides": {
+    "typescript": "4.7"
   }
 }

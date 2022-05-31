@@ -31,7 +31,7 @@ task
             {
                 src: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                 envs: 'node',
-                parserOptions: { ecmaVersion: 9 },
+                parserOptions: { ecmaVersion: 2020 },
             },
         );
     },
@@ -60,26 +60,26 @@ task
 task
 (
     'test',
-    callback =>
+    async () =>
     {
-        const { fork } = require('child_process');
-
-        const { resolve } = require;
-        const c8Path = resolve('c8/bin/c8');
-        const mochaPath = resolve('mocha/bin/mocha');
-        const childProcess =
-        fork
+        const { default: c8js } = await import('c8js');
+        const mochaPath = require.resolve('mocha/bin/mocha');
+        await c8js
         (
-            c8Path,
-            [
-                '--reporter=html',
-                '--reporter=text-summary',
-                mochaPath,
-                '--check-leaks',
-                'test/**/*.spec.js',
-            ],
+            mochaPath,
+            ['--check-leaks', 'test/**/*.spec.js'],
+            {
+                reporter: ['html', 'text-summary'],
+                useC8Config: false,
+                watermarks:
+                {
+                    branches:   [90, 100],
+                    functions:  [90, 100],
+                    lines:      [90, 100],
+                    statements: [90, 100],
+                },
+            },
         );
-        childProcess.on('exit', code => callback(code && 'Test failed'));
     },
 );
 
