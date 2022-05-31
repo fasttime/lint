@@ -2,10 +2,10 @@ import type { Linter } from 'eslint';
 
 export interface Config extends Linter.BaseConfig
 {
-    src:                    string | string[];
-    defaultDialectName?:    string;
-    envs?:                  string | string[];
-    fix?:                   boolean;
+    src:                    string | readonly string[];
+    defaultDialectName?:    string | undefined;
+    envs?:                  string | readonly string[] | undefined;
+    fix?:                   boolean | undefined;
 }
 
 export class LintError extends Error
