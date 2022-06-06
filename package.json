@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/lint",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Universal linter with fasttime presets.",
   "keywords": [
     "eslint",
@@ -40,7 +40,7 @@
     "@types/eslint": "8",
     "@typescript-eslint/eslint-plugin": "5.27",
     "@typescript-eslint/parser": "5.27",
-    "eslint": "8.16",
+    "eslint": "8.17",
     "eslint-plugin-node": "11",
     "fancy-log": "2",
     "fast-glob": "3",
