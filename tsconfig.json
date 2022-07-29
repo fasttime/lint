@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
-    "strict": true
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "types": []
   },
   "include": [
     "*.ts"

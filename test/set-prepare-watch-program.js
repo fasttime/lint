@@ -1,6 +1,6 @@
 'use strict';
 
-const ts = require('typescript'); // eslint-disable-line node/no-extraneous-require
+const ts = require('typescript');
 
 const { bindSourceFile, createSourceFile, createWatchProgram } = ts;
 let _getSourceText;

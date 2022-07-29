@@ -1,6 +1,7 @@
-import type { Linter } from 'eslint';
+import type { ConfigData } from '@origin-1/eslint-config';
+import                          'node';
 
-export interface Config extends Linter.BaseConfig
+export interface Config extends ConfigData
 {
     src:                    string | readonly string[];
     defaultDialectName?:    string | undefined;

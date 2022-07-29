@@ -171,35 +171,6 @@ exports.test =
 
     it
     (
-        'mirrors only an unprefixed rule into a @typescript-eslint rule',
-        async () =>
-        {
-            const setPrepareWatchProgram = require('./set-prepare-watch-program');
-
-            const tsSource = 'const\tx = 0X2_000000000_0001;\n';
-            setPrepareWatchProgram(() => tsSource);
-            const fileName = mockFile('.ts', tsSource);
-            const src = fileName;
-            const lintData =
-            testLint
-            (
-                {
-                    src,
-                    parserOptions: { project: 'test/tsconfig-test.json' },
-                    rules:
-                    {
-                        'no-loss-of-precision': 'error',
-                        'no-tabs':              'error',
-                    },
-                },
-            );
-            await assertLintFailure(lintData, 2);
-        },
-    )
-    .timeout(LONG_TIMEOUT);
-
-    it
-    (
         'finds no errors in a Gherkin file',
         async () =>
         {
@@ -241,17 +212,28 @@ exports.test =
         {
             const setPrepareWatchProgram = require('./set-prepare-watch-program');
 
-            const tsSource = 'Object();';
+            const tsSource = '*';
             setPrepareWatchProgram(() => tsSource);
-            const fileName_cjs      = mockFile('.cjs', '\'use strict\'; \n');
-            const fileName_js       = mockFile('.js', '\'use strict\';');
-            const fileName_mjs      = mockFile('.mjs', '"use strict";\n');
+            const fileName_cjs      = mockFile('.cjs', '-');
+            const fileName_cts      = mockFile('.cts', tsSource);
+            const fileName_js       = mockFile('.js', '-');
+            const fileName_mjs      = mockFile('.mjs', '-');
+            const fileName_mts      = mockFile('.mts', tsSource);
             const fileName_ts       = mockFile('.ts', tsSource);
             const fileName_feature  = mockFile('.feature', '!\n');
-            const src = [fileName_cjs, fileName_js, fileName_mjs, fileName_ts, fileName_feature];
+            const src =
+            [
+                fileName_cjs,
+                fileName_cts,
+                fileName_js,
+                fileName_mjs,
+                fileName_mts,
+                fileName_ts,
+                fileName_feature,
+            ];
             const lintData =
             testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
-            await assertLintFailure(lintData, 5);
+            await assertLintFailure(lintData, 7);
         },
     )
     .timeout(LONG_TIMEOUT);
@@ -277,55 +259,43 @@ exports.test =
         {
             const fileName = mockFile('.js',  '\'use strict\';\n\nSymbol();\n');
             const src = fileName;
-            const lintData = testLint({ src, parserOptions: { ecmaVersion: 6 } });
+            const lintData = testLint({ src, jsVersion: 2015 });
             await assertLintSuccess(lintData);
         },
     );
 
     it
     (
-        'infers es2017 environment from ecmaVersion explicitly ≥ 2017',
+        'infers es2017 environment from jsVersion explicitly ≥ 2017',
         async () =>
         {
             const fileName = mockFile('.js', '\'use strict\';\n\nSharedArrayBuffer();\n');
             const src = fileName;
-            const lintData = testLint({ src, parserOptions: { ecmaVersion: 2017 } });
+            const lintData = testLint({ src, jsVersion: 2017 });
             await assertLintSuccess(lintData);
         },
     );
 
     it
     (
-        'infers es2020 environment from ecmaVersion explicitly ≥ 2020',
+        'infers es2020 environment from jsVersion explicitly ≥ 2020',
         async () =>
         {
             const fileName = mockFile('.js', '\'use strict\';\n\nBigInt();\n');
             const src = fileName;
-            const lintData = testLint({ src, parserOptions: { ecmaVersion: 2020 } });
+            const lintData = testLint({ src, jsVersion: 2020 });
             await assertLintSuccess(lintData);
         },
     );
 
     it
     (
-        'infers es2021 environment from ecmaVersion explicitly ≥ 2021',
+        'infers es2021 environment from jsVersion explicitly ≥ 2021',
         async () =>
         {
             const fileName = mockFile('.js', '\'use strict\';\n\nWeakRef();\n');
             const src = fileName;
-            const lintData = testLint({ src, parserOptions: { ecmaVersion: 2021 } });
-            await assertLintSuccess(lintData);
-        },
-    );
-
-    it
-    (
-        'infers ecmaVersion ≥ 2015 from sourceType "module"',
-        async () =>
-        {
-            const fileName = mockFile('.js', 'void (() => null);\n');
-            const src = fileName;
-            const lintData = testLint({ src, parserOptions: { sourceType: 'module' } });
+            const lintData = testLint({ src, jsVersion: 2021 });
             await assertLintSuccess(lintData);
         },
     );
@@ -380,3 +350,5 @@ exports.test =
         },
     );
 };
+
+require('tslib'); // eslint-disable-line n/no-extraneous-require

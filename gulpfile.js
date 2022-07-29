@@ -26,34 +26,15 @@ task
         (
             {
                 src: 'index.d.ts',
+                tsVersion: 'latest',
                 parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
             },
             {
                 src: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
+                jsVersion: 2022,
                 envs: 'node',
-                parserOptions: { ecmaVersion: 2020 },
             },
         );
-    },
-);
-
-task
-(
-    'check-eslint-rules',
-    done =>
-    {
-        let error;
-        {
-            const eslintRulesOk = require('./check-eslint-rules');
-
-            if (!eslintRulesOk)
-            {
-                const PluginError = require('plugin-error');
-
-                error = new PluginError('check-eslint-rules', 'Task check-eslint-rules failed');
-            }
-        }
-        done(error);
     },
 );
 
@@ -83,4 +64,4 @@ task
     },
 );
 
-task('default', series(parallel('clean', 'lint'), 'check-eslint-rules', 'test'));
+task('default', series(parallel('clean', 'lint'), 'test'));

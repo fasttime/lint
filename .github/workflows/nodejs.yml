@@ -4,9 +4,7 @@ on: [push, pull_request]
 
 jobs:
 
-  lint-and-check-eslint-rules:
-
-    name: lint & check-eslint-rules
+  lint:
 
     runs-on: ubuntu-latest
 
@@ -18,23 +16,16 @@ jobs:
     - run: |
         npm install
         gulp lint
-        gulp check-eslint-rules
 
   test:
 
-    name: test (Node.js ${{ matrix.node-version }})
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: ['14', '16', '18']
 
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '18'
     - run: |
         npm install
         npm test
