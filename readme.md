@@ -70,6 +70,7 @@ JavaScript and TypeScript are linted with [ESLint](https://eslint.org/).
 The following ESLint options are supported.
 
 * [`env`][about env]
+* [`extends`][about extends]
 * [`globals`][about globals]
 * [`parserOptions`][about parserOptions]
 * [`plugins`][about plugins]
@@ -86,6 +87,9 @@ The default is English.
 
 [about env]:
 https://eslint.org/docs/user-guide/configuring/language-options#using-configuration-files
+
+[about extends]:
+https://eslint.org/docs/user-guide/configuring/configuration-files#extending-configuration-files
 
 [about globals]:
 https://eslint.org/docs/user-guide/configuring/language-options#using-configuration-files-1
