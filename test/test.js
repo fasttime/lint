@@ -158,7 +158,7 @@ exports.test =
         {
             const setPrepareWatchProgram = require('./set-prepare-watch-program');
 
-            const tsSource = '///\t<reference path="doo"/>\n{}';
+            const tsSource = '///\t<reference path="doo"/>\n;;';
             setPrepareWatchProgram(() => tsSource);
             const fileName = mockFile('.ts', tsSource);
             const src = fileName;
@@ -351,4 +351,4 @@ exports.test =
     );
 };
 
-require('tslib'); // eslint-disable-line n/no-extraneous-require
+require('tslib');
