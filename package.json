@@ -2,17 +2,6 @@
   "name": "@fasttime/lint",
   "version": "2.0.0",
   "description": "Universal linter with fasttime presets.",
-  "keywords": [
-    "eslint",
-    "gulp",
-    "gulp-plugin",
-    "gulpplugin",
-    "lint",
-    "linter",
-    "validate",
-    "validation",
-    "validator"
-  ],
   "homepage": "https://github.com/fasttime/lint",
   "bugs": "https://github.com/fasttime/lint/issues",
   "license": "ISC",
