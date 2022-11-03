@@ -25,14 +25,14 @@ task
         lint
         (
             {
-                src: 'index.d.ts',
-                tsVersion: 'latest',
-                parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
+                src:            'index.d.ts',
+                tsVersion:      'latest',
+                parserOptions:  { project: 'tsconfig.json', sourceType: 'module' },
             },
             {
-                src: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
-                jsVersion: 2022,
-                envs: 'node',
+                src:            ['*.js', 'lib/**/*.js', 'test/**/*.js'],
+                jsVersion:      2022,
+                envs:           'node',
             },
         );
     },
@@ -50,8 +50,8 @@ task
             mochaPath,
             ['--check-leaks', 'test/**/*.spec.js'],
             {
-                reporter: ['html', 'text-summary'],
-                useC8Config: false,
+                reporter:       ['html', 'text-summary'],
+                useC8Config:    false,
                 watermarks:
                 {
                     branches:   [90, 100],

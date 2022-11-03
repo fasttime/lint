@@ -15,16 +15,16 @@ function findMatch(str, regExp)
 }
 
 exports.assertProblemCount =
-(lintData, expectedTotalErrorCount, expectedTotalWarningCount, stackStartFn) =>
+(lintData, expectedTotalErrorCount, expectedTotalWarningCount, expectedRuleIds, stackStartFn) =>
 {
     const actualTotalErrorCount = lintData.totalErrorCount;
     if (actualTotalErrorCount !== expectedTotalErrorCount)
     {
         const options =
         {
-            message: 'Unexpected total error count',
-            actual: actualTotalErrorCount,
-            expected: expectedTotalErrorCount,
+            message:    'Unexpected total error count',
+            actual:     actualTotalErrorCount,
+            expected:   expectedTotalErrorCount,
             stackStartFn,
         };
         const assertionError = new assert.AssertionError(options);
@@ -35,14 +35,16 @@ exports.assertProblemCount =
     {
         const options =
         {
-            message: 'Unexpected total warning count',
-            actual: actualTotalWarningCount,
-            expected: expectedTotalWarningCount,
+            message:    'Unexpected total warning count',
+            actual:     actualTotalWarningCount,
+            expected:   expectedTotalWarningCount,
             stackStartFn,
         };
         const assertionError = new assert.AssertionError(options);
         throw assertionError;
     }
+    if (expectedRuleIds)
+        assert.deepStrictEqual(lintData.ruleIds, expectedRuleIds);
 };
 
 exports.attachLogger =
@@ -55,6 +57,7 @@ lintData =>
     {
         let totalErrorCount     = 0;
         let totalWarningCount   = 0;
+        let ruleIds             = null;
         if (report != null)
         {
             const plainReport = report.replace(/\u001b\[\d+m/g, '');
@@ -69,9 +72,11 @@ lintData =>
                 totalErrorCount     = +findMatch(line, /\b\d+(?= error)/)   || 0;
                 totalWarningCount   = +findMatch(line, /\b\d+(?= warning)/) || 0;
             }
+            ruleIds = plainReport.match(/(?<=^  \d+:\d+  .*)\S+$/gm);
         }
         lintData.totalErrorCount    = totalErrorCount;
         lintData.totalWarningCount  = totalWarningCount;
+        lintData.ruleIds            = ruleIds;
     };
     return logger;
 };
@@ -164,7 +169,18 @@ exports.test =
             const src = fileName;
             const lintData =
             testLint({ src, parserOptions: { project: 'test/tsconfig-test.json' } });
-            await assertLintFailure(lintData, 6);
+            await assertLintFailure
+            (
+                lintData,
+                5,
+                [
+                    '@typescript-eslint/triple-slash-reference',
+                    'no-tabs',
+                    '@typescript-eslint/no-extra-semi',
+                    '@typescript-eslint/no-extra-semi',
+                    'eol-last',
+                ],
+            );
         },
     )
     .timeout(LONG_TIMEOUT);

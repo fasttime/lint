@@ -31,8 +31,7 @@ describe
         const vinylBuffer                                   = require('vinyl-buffer');
         const vinylSourceStream                             = require('vinyl-source-stream');
 
-        async function assertLintFailure
-        (stream, expectedTotalErrorCount = 0, expectedTotalWarningCount = 0)
+        async function assertLintFailure(stream, expectedTotalErrorCount = 0, expectedRuleIds)
         {
             let options;
             try
@@ -50,9 +49,9 @@ describe
                 {
                     options =
                     {
-                        message: 'Unexpected error message',
-                        actual: actualMessage,
-                        expected: expectedMessage,
+                        message:    'Unexpected error message',
+                        actual:     actualMessage,
+                        expected:   expectedMessage,
                     };
                 }
             }
@@ -63,7 +62,7 @@ describe
                 throw assertionError;
             }
             assertProblemCount
-            (stream, expectedTotalErrorCount, expectedTotalWarningCount, assertLintFailure);
+            (stream, expectedTotalErrorCount, 0, expectedRuleIds, assertLintFailure);
         }
 
         async function assertLintSuccess
@@ -71,7 +70,7 @@ describe
         {
             await endOfStream(stream);
             assertProblemCount
-            (stream, expectedTotalErrorCount, expectedTotalWarningCount, assertLintSuccess);
+            (stream, expectedTotalErrorCount, expectedTotalWarningCount, null, assertLintSuccess);
         }
 
         const getWrittenFileContents = filePath => writeFileMap[filePath];

@@ -12,7 +12,7 @@ describe
         const postrequire                                   = require('postrequire');
 
         async function assertLintFailure
-        (promise, expectedTotalErrorCount = 0, expectedTotalWarningCount = 0)
+        (promise, expectedTotalErrorCount = 0, expectedRuleIds)
         {
             try
             {
@@ -24,9 +24,9 @@ describe
                 {
                     const options =
                     {
-                        actual: message,
-                        expected: 'Lint failed',
-                        stackStartFn: assertLintFailure,
+                        actual:         message,
+                        expected:       'Lint failed',
+                        stackStartFn:   assertLintFailure,
                     };
                     const assertionError = new AssertionError(options);
                     throw assertionError;
@@ -35,9 +35,9 @@ describe
                 {
                     const options =
                     {
-                        actual: showStack,
-                        expected: false,
-                        stackStartFn: assertLintFailure,
+                        actual:         showStack,
+                        expected:       false,
+                        stackStartFn:   assertLintFailure,
                     };
                     const assertionError = new AssertionError(options);
                     throw assertionError;
@@ -46,22 +46,22 @@ describe
                 {
                     const options =
                     {
-                        actual: stack,
-                        expected: undefined,
-                        stackStartFn: assertLintFailure,
+                        actual:         stack,
+                        expected:       undefined,
+                        stackStartFn:   assertLintFailure,
                     };
                     const assertionError = new AssertionError(options);
                     throw assertionError;
                 }
                 assertProblemCount
-                (promise, expectedTotalErrorCount, expectedTotalWarningCount, assertLintFailure);
+                (promise, expectedTotalErrorCount, 0, expectedRuleIds, assertLintFailure);
                 return;
             }
             {
                 const options =
                 {
-                    message: 'Error expected but not thrown',
-                    stackStartFn: assertLintFailure,
+                    message:        'Error expected but not thrown',
+                    stackStartFn:   assertLintFailure,
                 };
                 const assertionError = new AssertionError(options);
                 throw assertionError;
@@ -73,7 +73,7 @@ describe
         {
             await promise;
             assertProblemCount
-            (promise, expectedTotalErrorCount, expectedTotalWarningCount, assertLintSuccess);
+            (promise, expectedTotalErrorCount, expectedTotalWarningCount, null, assertLintSuccess);
         }
 
         const getWrittenFileContents = filePath => writeFileMap[filePath];
