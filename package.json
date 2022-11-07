@@ -1,6 +1,6 @@
 {
   "name": "@fasttime/lint",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Universal linter with fasttime presets.",
   "homepage": "https://github.com/fasttime/lint",
   "bugs": "https://github.com/fasttime/lint/issues",
