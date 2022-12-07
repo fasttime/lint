@@ -24,10 +24,10 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@cucumber/gherkin": "24",
-    "@origin-1/eslint-config": "^0.8.0",
+    "@cucumber/gherkin": "25",
+    "@origin-1/eslint-config": "^0.9.2",
     "@types/node": "18",
-    "eslint": "^8.27",
+    "eslint": "^8.28",
     "fancy-log": "2",
     "fast-glob": "3",
     "gulp-tap": "2",
