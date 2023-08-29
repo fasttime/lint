@@ -7,8 +7,8 @@ describe
     'lint',
     () =>
     {
+        const { AssertionError }                            = require('node:assert');
         const { assertProblemCount, attachLogger, test }    = require('./test');
-        const { AssertionError }                            = require('assert');
         const postrequire                                   = require('postrequire');
 
         async function assertLintFailure
@@ -103,10 +103,10 @@ describe
                         case './log':
                             exports = report => logger(report);
                             break;
-                        case 'fast-glob':
-                            exports = pattern => [].concat(pattern);
+                        case 'glob':
+                            exports = { glob: pattern => [].concat(pattern) };
                             break;
-                        case 'fs/promises':
+                        case 'node:fs/promises':
                             exports =
                             {
                                 // eslint-disable-next-line require-await

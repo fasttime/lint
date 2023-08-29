@@ -23,8 +23,8 @@ describe
     'gulp-lint',
     () =>
     {
+        const { AssertionError }                            = require('node:assert');
         const { assertProblemCount, attachLogger, test }    = require('./test');
-        const { AssertionError }                            = require('assert');
         const gulpTap                                       = require('gulp-tap');
         const mergeStream                                   = require('merge-stream');
         const postrequire                                   = require('postrequire');

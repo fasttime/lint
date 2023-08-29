@@ -2,10 +2,10 @@
 
 'use strict';
 
-const assert    = require('assert');
-const { join }  = require('path');
+const assert    = require('node:assert/strict');
+const { join }  = require('node:path');
 
-const LONG_TIMEOUT = 15000;
+const LONG_TIMEOUT = 15_000;
 
 function findMatch(str, regExp)
 {
@@ -44,7 +44,7 @@ exports.assertProblemCount =
         throw assertionError;
     }
     if (expectedRuleIds)
-        assert.deepStrictEqual(lintData.ruleIds, expectedRuleIds);
+        assert.deepEqual(lintData.ruleIds, expectedRuleIds);
 };
 
 exports.attachLogger =
@@ -326,7 +326,7 @@ exports.test =
             const lintData = testLint({ src, fix: true });
             await assertLintSuccess(lintData);
             const filePath = join(process.cwd(), fileName);
-            assert.strictEqual(getWrittenFileContents(filePath), '\'use strict\';\n');
+            assert.equal(getWrittenFileContents(filePath), '\'use strict\';\n');
         },
     );
 
@@ -366,5 +366,3 @@ exports.test =
         },
     );
 };
-
-require('tslib');
