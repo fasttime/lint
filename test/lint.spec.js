@@ -103,8 +103,8 @@ describe
                         case './log':
                             exports = report => logger(report);
                             break;
-                        case 'glob':
-                            exports = { glob: pattern => [].concat(pattern) };
+                        case 'fast-glob':
+                            exports = pattern => [].concat(pattern);
                             break;
                         case 'node:fs/promises':
                             exports =
