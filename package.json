@@ -25,8 +25,8 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@cucumber/gherkin": "26",
-    "@origin-1/eslint-config": "^0.17.0",
+    "@cucumber/gherkin": "27",
+    "@origin-1/eslint-config": "^0.19.0",
     "@types/node": "20",
     "eslint": "^8.46",
     "fancy-log": "2",
@@ -47,6 +47,6 @@
     "vinyl-source-stream": "latest"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.8"
   }
 }

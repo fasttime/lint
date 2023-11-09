@@ -175,10 +175,10 @@ exports.test =
                 5,
                 [
                     '@typescript-eslint/triple-slash-reference',
-                    'no-tabs',
-                    '@typescript-eslint/no-extra-semi',
-                    '@typescript-eslint/no-extra-semi',
-                    'eol-last',
+                    '@stylistic/no-tabs',
+                    '@stylistic/no-extra-semi',
+                    '@stylistic/no-extra-semi',
+                    '@stylistic/eol-last',
                 ],
             );
         },
@@ -260,7 +260,7 @@ exports.test =
         async () =>
         {
             const fileName1 = mockFile('.js', '\'use strict\';');
-            const fileName2 = mockFile('.js', 'Object();\n');
+            const fileName2 = mockFile('.js', 'Object(null);\n');
             const src1 = fileName1;
             const src2 = fileName2;
             const lintData = testLint({ src: src1 }, { src: src2 });
